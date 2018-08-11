@@ -38,11 +38,13 @@ class Factory {
 
   create(_overides = 1, _count = 1) {
     const { overides, count } = this.resolveArgs(_overides, _count);
-    return For(count).map(() => {
+    const data = For(count).map(() => {
       const model = this.routine(Faker);
 
       return { ...model, ...overides };
     });
+
+    return count > 1 ? data : data[0];
   }
 }
 
