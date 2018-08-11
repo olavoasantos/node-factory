@@ -1,0 +1,1 @@
+module.exports = (length) => Array.from({length}, (v, i) => i);
