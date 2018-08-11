@@ -1,14 +1,18 @@
 {
   "name": "node-factory",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "",
   "main": "index.js",
   "scripts": {
     "bump": "bump --prompt --tag"
   },
   "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "author": {
+    "name": "Olavo Amorim Santos",
+    "email": "olavo.a.santos@gmail.com"
+  },
+  "homepage": "https://github.com/olavoasantos/node-factory",
+  "license": "MIT",
   "devDependencies": {
     "version-bump-prompt": "^4.1.0"
   },
