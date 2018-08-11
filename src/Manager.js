@@ -9,7 +9,7 @@ const Manager = () => {
     if (!exists(name)) factories[name] = new Factory(routine);
   }
 
-  const run = (name) => {
+  const factory = (name) => {
     if (!exists(name)) {
       throw new Error(`Factory ${name} not defined`);
     }
@@ -17,7 +17,7 @@ const Manager = () => {
     return factories[name];
   }
 
-  return { register, factory: run };
+  return { manager: { register }, factory };
 };
 
 module.exports = Manager;
