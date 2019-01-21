@@ -14,7 +14,7 @@
     /* Specify JSX code generation: 'preserve', 'react-native', or 'react'. */
     // "jsx": "preserve",
     /* Generates corresponding '.d.ts' file. */
-    // "declaration": true,
+    "declaration": true,
     /* Generates a sourcemap for each corresponding '.d.ts' file. */
     // "declarationMap": true,
     /* Generates corresponding '.map' file. */
@@ -22,9 +22,9 @@
     /* Concatenate and emit output to single file. */
     // "outFile": "./",
     /* Redirect output structure to the directory. */
-    "outDir": "./build",
+    "outDir": "./dist",
     /* Specify the root directory of input files. Use to control the output directory structure with --outDir. */
-    "rootDir": "./src",
+    // "rootDir": "./src",
     /* Enable project compilation */
     // "composite": true,
     /* Do not emit comments to output. */
@@ -102,5 +102,6 @@
     /* Enables experimental support for emitting type metadata for decorators. */
     // "emitDecoratorMetadata": true,
   },
-  "exclude": ["node_modules"]
+  "include": ["src"],
+  "exclude": ["node_modules", "**/__tests__/*"]
 }
