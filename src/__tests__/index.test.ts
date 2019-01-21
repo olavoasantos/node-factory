@@ -1,4 +1,4 @@
-import { greeter } from '../index';
+import { greeter } from '@@/index';
 
 describe('greeter tests', (): void => {
   it('should greet with the persons name', (): void => {

@@ -28,7 +28,7 @@
     /* Enable project compilation */
     // "composite": true,
     /* Do not emit comments to output. */
-    // "removeComments": true,
+    "removeComments": true,
     /* Do not emit outputs. */
     // "noEmit": true,
     /* Import emit helpers from 'tslib'. */
@@ -42,7 +42,7 @@
     /* Enable all strict type-checking options. */
     "strict": true,
     /* Raise error on expressions and declarations with an implied 'any' type. */
-    // "noImplicitAny": true,
+    "noImplicitAny": true,
     /* Enable strict null checks. */
     // "strictNullChecks": true,
     /* Enable strict checking of function types. */
@@ -58,21 +58,23 @@
 
     /*** Additional Checks ***/
     /* Report errors on unused locals. */
-    // "noUnusedLocals": true,
+    "noUnusedLocals": true,
     /* Report errors on unused parameters. */
-    // "noUnusedParameters": true,
+    "noUnusedParameters": true,
     /* Report error when not all code paths in function return a value. */
-    // "noImplicitReturns": true,
+    "noImplicitReturns": true,
     /* Report errors for fallthrough cases in switch statement. */
     // "noFallthroughCasesInSwitch": true,
 
     /*** Module Resolution Options ***/
     /* Specify module resolution strategy: 'node' (Node.js) or 'classic' (TypeScript pre-1.6). */
-    // "moduleResolution": "node",
+    "moduleResolution": "node",
     /* Base directory to resolve non-absolute module names. */
-    // "baseUrl": "./",
+    "baseUrl": ".",
     /* A series of entries which re-map imports to lookup locations relative to the 'baseUrl'. */
-    // "paths": {},
+    "paths": {
+      "@@/*": ["./src/*"]
+    },
     /* List of root folders whose combined content represents the structure of the project at runtime. */
     // "rootDirs": [],
     /* List of folders to include type definitions from. */
@@ -103,5 +105,5 @@
     // "emitDecoratorMetadata": true,
   },
   "include": ["src"],
-  "exclude": ["node_modules", "**/__tests__/*"]
+  "exclude": ["node_modules"]
 }
