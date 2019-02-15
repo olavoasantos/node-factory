@@ -31,7 +31,7 @@ You should create a factory object for the data you want to generate. To do that
 #### Example
 
 ```js
-import factory from '@/test-utils/factory';
+import { factory } from 'node-factory';
 
 const UserFactory = factory(fake => ({
   id: fake.random.uuid(),
