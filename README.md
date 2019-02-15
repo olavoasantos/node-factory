@@ -253,6 +253,10 @@ console.log(UserFactory.seed(123).create());
  */
 ```
 
+## Upgrade to v0.2.0
+
+Version 0.2.0 is a complete rewrite of the package which, not only implemented TypeScript and tests, but introduces a whole new API which simplifies the package usage. This generated braking changes from the previous versions and will require refactoring. Sorry for the inconvenience.
+
 ## Author
 
 - [Olavo Amorim Santos](https://github.com/olavoasantos)
