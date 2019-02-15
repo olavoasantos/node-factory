@@ -2,7 +2,7 @@
   "compilerOptions": {
     /*** Basic Options ***/
     /* Specify ECMAScript target version: 'ES3' (default), 'ES5', 'ES2015', 'ES2016', 'ES2017','ES2018' or 'ESNEXT'. */
-    "target": "es5",
+    "target": "es6",
     /* Specify module code generation: 'none', 'commonjs', 'amd', 'system', 'umd', 'es2015', or 'ESNext'. */
     "module": "commonjs",
     /* Specify library files to be included in the compilation. */
@@ -16,7 +16,7 @@
     /* Generates corresponding '.d.ts' file. */
     "declaration": true,
     /* Generates a sourcemap for each corresponding '.d.ts' file. */
-    // "declarationMap": true,
+    "declarationMap": true,
     /* Generates corresponding '.map' file. */
     "sourceMap": true,
     /* Concatenate and emit output to single file. */

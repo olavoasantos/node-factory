@@ -1,16 +1,389 @@
-# Node Typescript Starter
+# Node factory
 
 ## About
 
-Just a quick setup for a Node.js project using Typescript.
+When developing or testing your application, you might need to mock data comming from a database or an endpoint. Instead of manually generating "random" data, you can use model factories. This package allows you to define a default set of attributes for each of your endpoints or models and easily mock responses.
 
-## Packages
+## Usage
 
-- Jest
-- Husky
-- Ts-lint
-- Prettier
-- Typescript
+### Defining your factories
+
+First off, create an endpoint where you can define your factories:
+
+```js
+// ./path/to/factories.js
+const factory = require('node-factory');
+
+// Here you can declare your factories
+
+module.exports = factory;
+```
+
+Here, we are importing the two entities from node-factory. The `manager` is the guy who will register our new factories and the `factory` will be the one who runs them.
+
+So let's create a simple User factory:
+
+```js
+// ./path/to/factories.js
+const { manager, factory } = require('node-factory');
+
+manager.register('User', faker => {
+  return {
+    id: faker.random.number(),
+    name: faker.name.findName(),
+    email: faker.internet.email(),
+  }
+});
+
+module.exports = factory;
+```
+
+So, to create our factory, we need to call the `register` method on the `manager`. This function accepts a factory name and a routine. The routine is a callback which defines how the factory will generate the data and should always return an object. To make things easier, node-factory comes with the awesome [faker.js](https://github.com/Marak/faker.js) package out of the box. This guy is passed into the callback as the firt parameter and will generate random fake data for us.
+
+Finally, we export the `factory` which will be used to generate our mocked data.
+
+### Using our factories
+
+To use our factory, we simply import our factories and call create on the one we need to use:
+
+```js
+// ./path/to/where/we/need/the/factory.js
+const factory = require('./path/to/factories');
+
+const User = factory('User').create();
+```
+
+What we get is something like:
+
+```js
+{
+  id: 12915,
+  name: 'Dr. Mathilde Daugherty',
+  email: 'Ferne24@yahoo.com'
+}
+```
+
+### Cool! But I need a lot of users
+
+Say we need to create not one, but 3 users! No problem! Simply pass in the number of users you need to the `create` method:
+
+```js
+// ./path/to/where/we/need/the/factory.js
+const factory = require('./path/to/factories');
+
+const User = factory('User').create(3);
+```
+
+What we get is something like:
+
+```js
+[
+  { id: 95933,
+    name: 'Autumn Aufderhar III',
+    email: 'Ima.Blanda71@hotmail.com'
+  },
+  { id: 4085,
+    name: 'Karianne Jacobson',
+    email: 'Allene.Kautzer59@hotmail.com'
+  },
+  { id: 79811,
+    name: 'Gilda Heidenreich',
+    email: 'Stanton26@yahoo.com'
+  }
+]
+```
+
+Do notice that, if you pass a number larger than one, you will get an `Array`!!
+
+### Very cool! But what if I need a user with specific data
+
+Sometimes, specially when we are testing, we need to create data with a specific value. To do this, you can simply pass an object to the `create` method. Let's see two examples:
+
+1. So say we need to create a users with no e-mail:
+
+```js
+// ./path/to/where/we/need/the/factory.js
+const factory = require('./path/to/factories');
+
+const User = factory('User').create({ email: null });
+```
+
+And we get something like:
+
+```js
+{
+  id: 37598,
+  name: 'Jesse Cronin',
+  email: null
+}
+```
+
+1. Now say we need to create two users with the same e-mail:
+
+```js
+// ./path/to/where/we/need/the/factory.js
+const factory = require('./path/to/factories');
+
+const User = factory('User').create({ email: 'SAME@EMAIL.COM' }, 2);
+```
+
+And we get something like:
+
+```js
+[
+  {
+    id: 33445,
+    name: 'Abby Fahey',
+    email: 'SAME@EMAIL.COM'
+  },
+  {
+    id: 13734,
+    name: 'Adonis Schmidt',
+    email: 'SAME@EMAIL.COM'
+  },
+]
+```
+
+## API
+
+### `factory(generator)`
+
+**args**:
+
+- `generator (Function)`: Generator function which describes your data object. This function receives a `faker` instance as an argument
+
+**return**:
+
+- `Factory object (Object)`: The factory object contains four methods: `create`, `only`, `make` and `seed`
+
+#### Description
+
+You should create a factory object for the data you want to generate. To do that, you need to specify the type of data. To do this, the factory class makes use of the [Faker.js](https://github.com/marak/Faker.js/) package which provides an easy way to generate random data.
+
+#### Example
+
+```js
+import factory from '@/test-utils/factory';
+
+const UserFactory = factory(fake => ({
+  id: fake.random.uuid(),
+  name: fake.name.findName(),
+  email: fake.internet.email(),
+}));
+
+export default UserFactory;
+```
+
+### `Factory.create([overrides])`
+
+**args:**
+
+- `overrides (Object [optional])`: These are value which should be overridden on the generated data (default: {})
+
+**return:**
+
+- `data (Object)`: Data object generated by your generator function
+
+#### Description
+
+This method is used to generate a data object.
+
+#### Example
+
+```js
+import UserFactory from '@/path/to/UserFactory';
+
+console.log(UserFactory.create());
+/**
+ * @Outputs
+ * {
+ *    id: 'b6f283bf-8b79-44ab-81c1-e49d063dec98',
+ *    name: 'Eloisa Jacobson',
+ *    email: 'Clifford15@hotmail.com',
+ * }
+ */
+
+console.log(UserFactory.create({ name: 'JOHN DOE' }));
+/**
+ * @Outputs
+ * {
+ *    id: 'e91beb36-0214-4d28-bf5e-22961e50bf5a',
+ *    name: 'JOHN DOE',
+ *    email: 'Wilfrid.Anderson20@hotmail.com',
+ * }
+ */
+```
+
+### `Factory.only(fields[, overrides])`
+
+**args:**
+
+- `fields (String | Array)`: This argument defines the fields that should be returned.
+
+  - If a `String`, returns an object containing only that key
+  - If an `Array`, returns an object containing only the keys contained in the array
+- `overrides (Object [optional])`: These are value which should be overridden on the generated data (default: {})
+
+**return:**
+
+- `data (Object)`: Data object generated by your generator function
+
+#### Description
+
+This method is used to generate a data object containing only the keys specified. This could be particularly useful for updating state.
+
+#### Example
+
+```js
+import UserFactory from '@/path/to/UserFactory';
+
+console.log(UserFactory.only('email'));
+/**
+ * @Outputs
+ * {
+ *    email: 'Ramiro2@gmail.com',
+ * }
+ */
+
+console.log(UserFactory.only(['email', 'name']));
+/**
+ * @Outputs
+ * {
+ *    email: 'Jaida21@hotmail.com',
+ *    name: 'Bailee O'Reilly PhD',
+ * }
+ */
+
+console.log(UserFactory.only(['id', 'email'], { id: '123' }));
+/**
+ * @Outputs
+ * {
+ *    id: '123',
+ *    name: 'Maci_Mueller4@gmail.com',
+ * }
+ */
+```
+
+### `Factory.make([count, overrides])`
+
+**args:**
+
+- `count (number [optional])`: This argument defines how many objects should be generated (default: 1)
+- `overrides (Object [optional])`: These are value which should be overridden on the generated data (default: {})
+
+> If an object is passed in as the first argument, it will be used to override the values and the count will be set to 1.
+
+**return:**
+
+- `data (Array)`: Array containing data objects generated by your generator function
+
+#### Description
+
+This method is used to generate many data objects at once.
+
+#### Example
+
+```js
+import UserFactory from '@/path/to/UserFactory';
+
+console.log(UserFactory.make());
+/**
+ * @Outputs
+ * [
+ *  {
+ *    id: 'bbfa52e6-87b9-4317-b345-eb11f4232269',
+ *    name: 'Miss Johnnie White',
+ *    email: 'Jessyca_Kirlin57@hotmail.com',
+ *  },
+ * ]
+ */
+
+console.log(UserFactory.make({ id: '123' }));
+/**
+ * @Outputs
+ * [
+ *  {
+ *    id: '123',
+ *    name: 'Emmanuel Bednar',
+ *    email: 'Elyse.Hintz@yahoo.com',
+ *  },
+ * ]
+ */
+
+console.log(UserFactory.make(2));
+/**
+ * @Outputs
+ * [
+ *  {
+ *    id: '77445b7e-25e2-49d4-bee8-a2dd108a1cbc',
+ *    name: 'Russel O\'Hara',
+ *    email: 'Destin.Mayer20@hotmail.com',
+ *  },
+ *  {
+ *    id: 'a6990f82-9ff8-4fc7-a88a-bd000598cb84',
+ *    name: 'Casandra Tillman',
+ *    email: 'Vilma20@hotmail.com',
+ *  },
+ * ]
+ */
+
+console.log(UserFactory.make(2, { id: '123' }));
+/**
+ * @Outputs
+ * [
+ *  {
+ *    id: '123',
+ *    name: 'Cassie Rath',
+ *    email: 'Jorge_Collier25@hotmail.com'
+ *  },
+ *  {
+ *    id: '123',
+ *    name: 'Thomas Gleason',
+ *    email: 'Rachelle10@hotmail.com'
+ *  },
+ * ]
+ */
+```
+
+### `Factory.seed(value)`
+
+**args:**
+
+- `value (number)`: This argument defines how many objects should be generated (default: 1)
+
+**return:**
+
+- `self (Factory object)`: Returns the factory object for fluent API
+
+#### Description
+
+At times, you might need consistent results or, in other words, a not so random set of data. For this, you can set a `seed` which allows the random data to return the same result more than once. This is particularly useful for snapshot testing.
+
+#### Example
+
+```js
+import UserFactory from '@/path/to/UserFactory';
+
+console.log(UserFactory.seed(123).create());
+/**
+ * @Outputs
+ * {
+ *    id: 'bb463b8b-b76c-4f6a-9726-65ab5730b69b',
+ *    name: 'Idella Dare',
+ *    email: 'Justus.Rath@gmail.com',
+ * }
+ */
+
+console.log(UserFactory.seed(123).create());
+/**
+ * @Outputs
+ * {
+ *    id: 'bb463b8b-b76c-4f6a-9726-65ab5730b69b',
+ *    name: 'Idella Dare',
+ *    email: 'Justus.Rath@gmail.com',
+ * }
+ */
+```
 
 ## Author
 
