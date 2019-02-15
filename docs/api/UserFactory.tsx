@@ -1,7 +1,7 @@
-import React from 'react';
-import { factory } from '../../src/index';
-
 // tslint:disable
+import React from 'react';
+import { factory } from '../../index';
+
 const UserFactory = factory(fake => ({
   id: fake.random.uuid(),
   name: fake.name.findName(),
