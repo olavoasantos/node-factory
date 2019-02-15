@@ -9,17 +9,17 @@
     "native": false,
     "codeSandbox": true,
     "themeConfig": {},
-    "dest": "docs",
+    "dest": "docs/dist",
     "typescript": true
   },
   "entries": {
-    "src/docs/index.mdx": {
+    "docs/index.mdx": {
       "name": "Main",
       "route": "/",
-      "id": "13a8a147f67d34248cdc424d524520a5",
-      "filepath": "src/docs/index.mdx",
+      "id": "73498ad0e1e62a714b08085d318f9de1",
+      "filepath": "docs/index.mdx",
       "link": null,
-      "slug": "src-docs-index",
+      "slug": "docs-index",
       "order": 0,
       "menu": null,
       "headings": [
@@ -40,14 +40,14 @@
         }
       ]
     },
-    "src/docs/api/0-factory.mdx": {
+    "docs/api/0-factory.mdx": {
       "name": "factory",
       "route": "/api/factory",
       "menu": "API",
-      "id": "4c86ce489f4aae6203257b5d9f22d874",
-      "filepath": "src/docs/api/0-factory.mdx",
+      "id": "1f70687c628ef026b3d99dbfdadf7361",
+      "filepath": "docs/api/0-factory.mdx",
       "link": null,
-      "slug": "src-docs-api-0-factory",
+      "slug": "docs-api-0-factory",
       "order": 0,
       "headings": [
         {
@@ -67,14 +67,14 @@
         }
       ]
     },
-    "src/docs/api/1-create.mdx": {
+    "docs/api/1-create.mdx": {
       "name": "create",
       "route": "/api/create",
       "menu": "API",
-      "id": "fcf873ee9f805c37f1547223a07a2cdd",
-      "filepath": "src/docs/api/1-create.mdx",
+      "id": "9e23526a1ac121075df88daffd615b59",
+      "filepath": "docs/api/1-create.mdx",
       "link": null,
-      "slug": "src-docs-api-1-create",
+      "slug": "docs-api-1-create",
       "order": 0,
       "headings": [
         {
@@ -94,14 +94,14 @@
         }
       ]
     },
-    "src/docs/api/2-only.mdx": {
+    "docs/api/2-only.mdx": {
       "name": "only",
       "route": "/api/only",
       "menu": "API",
-      "id": "cbd095ec468941c338239c9beaea2f7a",
-      "filepath": "src/docs/api/2-only.mdx",
+      "id": "13511d4968124126470dc9836977cbed",
+      "filepath": "docs/api/2-only.mdx",
       "link": null,
-      "slug": "src-docs-api-2-only",
+      "slug": "docs-api-2-only",
       "order": 0,
       "headings": [
         {
@@ -121,14 +121,14 @@
         }
       ]
     },
-    "src/docs/api/3-make.mdx": {
+    "docs/api/3-make.mdx": {
       "name": "make",
       "route": "/api/make",
       "menu": "API",
-      "id": "fdd0a85007467297307decef71d12091",
-      "filepath": "src/docs/api/3-make.mdx",
+      "id": "a2817f75b6aa0e91a33049025acd4261",
+      "filepath": "docs/api/3-make.mdx",
       "link": null,
-      "slug": "src-docs-api-3-make",
+      "slug": "docs-api-3-make",
       "order": 0,
       "headings": [
         {
@@ -148,14 +148,14 @@
         }
       ]
     },
-    "src/docs/api/4-seed.mdx": {
+    "docs/api/4-seed.mdx": {
       "name": "seed",
       "route": "/api/seed",
       "menu": "API",
-      "id": "4a2e3d86d5554375932f67e8391ce491",
-      "filepath": "src/docs/api/4-seed.mdx",
+      "id": "40f88f2bac664dcff43c1b92f4c00c7d",
+      "filepath": "docs/api/4-seed.mdx",
       "link": null,
-      "slug": "src-docs-api-4-seed",
+      "slug": "docs-api-4-seed",
       "order": 0,
       "headings": [
         {
@@ -175,14 +175,14 @@
         }
       ]
     },
-    "src/docs/api/5-types.mdx": {
+    "docs/api/5-types.mdx": {
       "name": "types",
       "route": "/api/types",
       "menu": "API",
-      "id": "18c91dc0b1a71280e1c81e20c704d52a",
-      "filepath": "src/docs/api/5-types.mdx",
+      "id": "25ab6dcbcc8ab30cdcdabb62ee690ffa",
+      "filepath": "docs/api/5-types.mdx",
       "link": null,
-      "slug": "src-docs-api-5-types",
+      "slug": "docs-api-5-types",
       "order": 0,
       "headings": [
         {
@@ -207,13 +207,13 @@
         }
       ]
     },
-    "src/docs/observations/updateFromV012.mdx": {
+    "docs/observations/updateFromV012.mdx": {
       "name": "Update from v0.1.2",
       "route": "/obs/update-0-1-2",
-      "id": "f05bc4fc73afadc8cb6c7c341372f3a6",
-      "filepath": "src/docs/observations/updateFromV012.mdx",
+      "id": "0739fa0fbee735ae2a73d7241ef062d7",
+      "filepath": "docs/observations/updateFromV012.mdx",
       "link": null,
-      "slug": "src-docs-observations-update-from-v012",
+      "slug": "docs-observations-update-from-v012",
       "order": 0,
       "menu": null,
       "headings": [
