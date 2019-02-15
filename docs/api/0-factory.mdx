@@ -1,0 +1,38 @@
+---
+name: factory
+route: /api/factory
+menu: API
+---
+
+import { Link } from 'docz'
+
+## `factory(generator)`
+
+**args**:
+
+- `generator (FactoryGenerator)`: Generator function which describes your data object. This function receives a `faker` instance as an argument
+
+**return**:
+
+- `Factory object (IFactoryObject)`: The factory object contains four methods: <Link to="/api/create">`create`</Link>, <Link to="/api/only">`only`</Link>, <Link to="/api/make">`make`</Link> and <Link to="/api/seed">`seed`</Link>
+
+<hr style={{ marginTop: '2rem', marginBottom: '2rem', opacity: '0.2' }} />
+
+### Description
+
+You should create a factory object for the data you want to generate. To do that, you need to specify the type of data. To do this, the
+factory class makes use of the [Faker.js](https://github.com/marak/Faker.js/) package which provides an easy way to generate random data.
+
+### Usage
+
+```js
+import { factory } from 'node-factory';
+
+const UserFactory = factory(fake => ({
+  id: fake.random.uuid(),
+  name: fake.name.findName(),
+  email: fake.internet.email(),
+}));
+
+export default UserFactory;
+```

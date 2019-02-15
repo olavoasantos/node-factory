@@ -1,0 +1,37 @@
+---
+name: seed
+route: /api/seed
+menu: API
+---
+
+import UserFactory from './UserFactory';
+
+## `Factory.seed(value)`
+
+**args:**
+
+- `value (number)`: This argument defines how many objects should be generated (default: 1)
+
+**return:**
+
+- `self (IFactoryObject)`: Returns the factory object for fluent API
+
+### Description
+
+At times, you might need consistent results or, in other words, a not so random set of data. For this, you can set a `seed` which allows the random data to return the same result more than once.
+
+> This is particularly useful for snapshot testing.
+
+### Example
+
+```js
+UserFactory.seed(123).create()
+```
+
+<UserFactory parse={(UserFactory) => UserFactory.seed(123).create()} />
+
+```js
+UserFactory.seed(123).create()
+```
+
+<UserFactory parse={(UserFactory) => UserFactory.seed(123).create()} />
