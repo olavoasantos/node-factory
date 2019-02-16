@@ -1,29 +1,41 @@
 import faker from 'faker';
 import { FactoryGenerator, IDataObject, IFactoryObject } from './types';
 
-const resolveArgs = (count: number | IDataObject, overrides: IDataObject = {}): IDataObject => {
-  let length: number;
-  let data: IDataObject;
-
-  if (typeof count !== 'number') {
-    data = count;
-    length = 1;
+export const resolveArgs = (...args: any[]): IDataObject => args.reduce((resolved, arg) => {
+  if (typeof arg === 'number') {
+    return { ...resolved, length: arg > 0 ? arg : 1 };
+  } else if (typeof arg === 'object') {
+    return { ...resolved, data: arg };
   } else {
-    data = overrides;
-    length = count > 0 ? count : 1;
+    return resolved;
   }
+}, { length: 1, data: {} });
 
-  return { data, length };
+export const merge = (data: IDataObject, overrides: IDataObject) => {
+  const merged = Object.keys(data).reduce((values, key) => {
+    if (values.wasMerged) {
+      values.data = { ...values.data, [key]: data[key] };
+    } else if (!overrides[key]) {
+      values.data = { ...values.data, [key]: typeof data[key] !== 'object' ? data[key] : merge(data[key], overrides) };
+    } else {
+      values.data = { ...values.data, [key]: overrides[key] };
+      values.wasMerged = true;
+    }
+
+    return values;
+  }, { wasMerged: false, data: {} })
+
+  return merged.data;
 };
 
 export const factory = (generator: FactoryGenerator): IFactoryObject => {
   const create = (overrides: IDataObject = {}): IDataObject => {
     const data = generator(faker);
 
-    return { ...data, ...overrides };
+    return merge(data, overrides);
   };
 
-  const make = (count: number | IDataObject = 1, overrides: IDataObject = {}): IDataObject[] => {
+  const make = (count: number | IDataObject = 1, overrides?: IDataObject): IDataObject[] => {
     const { data, length } = resolveArgs(count, overrides);
 
     return Array.from({ length }).map(() => create(data));

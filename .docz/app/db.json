@@ -121,33 +121,6 @@
         }
       ]
     },
-    "docs/src/api/3-make.mdx": {
-      "name": "make",
-      "route": "/api/make",
-      "menu": "API",
-      "id": "22dea26879aa85d9777ac58be5174d1d",
-      "filepath": "docs/src/api/3-make.mdx",
-      "link": null,
-      "slug": "docs-src-api-3-make",
-      "order": 0,
-      "headings": [
-        {
-          "depth": 2,
-          "slug": "factorymakecount-overrides",
-          "value": "Factory.make([count, overrides])"
-        },
-        {
-          "depth": 3,
-          "slug": "description",
-          "value": "Description"
-        },
-        {
-          "depth": 3,
-          "slug": "example",
-          "value": "Example"
-        }
-      ]
-    },
     "docs/src/api/4-seed.mdx": {
       "name": "seed",
       "route": "/api/seed",
@@ -162,6 +135,33 @@
           "depth": 2,
           "slug": "factoryseedvalue",
           "value": "Factory.seed(value)"
+        },
+        {
+          "depth": 3,
+          "slug": "description",
+          "value": "Description"
+        },
+        {
+          "depth": 3,
+          "slug": "example",
+          "value": "Example"
+        }
+      ]
+    },
+    "docs/src/api/3-make.mdx": {
+      "name": "make",
+      "route": "/api/make",
+      "menu": "API",
+      "id": "22dea26879aa85d9777ac58be5174d1d",
+      "filepath": "docs/src/api/3-make.mdx",
+      "link": null,
+      "slug": "docs-src-api-3-make",
+      "order": 0,
+      "headings": [
+        {
+          "depth": 2,
+          "slug": "factorymakecount-overrides",
+          "value": "Factory.make([count, overrides])"
         },
         {
           "depth": 3,
