@@ -13,13 +13,13 @@
     "typescript": true
   },
   "entries": {
-    "docs/index.mdx": {
+    "docs/src/index.mdx": {
       "name": "Main",
       "route": "/",
-      "id": "73498ad0e1e62a714b08085d318f9de1",
-      "filepath": "docs/index.mdx",
+      "id": "52b2f895150a9f6ae98abe385152a5b5",
+      "filepath": "docs/src/index.mdx",
       "link": null,
-      "slug": "docs-index",
+      "slug": "docs-src-index",
       "order": 0,
       "menu": null,
       "headings": [
@@ -40,14 +40,14 @@
         }
       ]
     },
-    "docs/api/0-factory.mdx": {
+    "docs/src/api/0-factory.mdx": {
       "name": "factory",
       "route": "/api/factory",
       "menu": "API",
-      "id": "1f70687c628ef026b3d99dbfdadf7361",
-      "filepath": "docs/api/0-factory.mdx",
+      "id": "4541c433ca9b3266bf827220422aaa2e",
+      "filepath": "docs/src/api/0-factory.mdx",
       "link": null,
-      "slug": "docs-api-0-factory",
+      "slug": "docs-src-api-0-factory",
       "order": 0,
       "headings": [
         {
@@ -67,14 +67,14 @@
         }
       ]
     },
-    "docs/api/1-create.mdx": {
+    "docs/src/api/1-create.mdx": {
       "name": "create",
       "route": "/api/create",
       "menu": "API",
-      "id": "9e23526a1ac121075df88daffd615b59",
-      "filepath": "docs/api/1-create.mdx",
+      "id": "9898cfb785f3d34db2dff6a2cd3c6e2b",
+      "filepath": "docs/src/api/1-create.mdx",
       "link": null,
-      "slug": "docs-api-1-create",
+      "slug": "docs-src-api-1-create",
       "order": 0,
       "headings": [
         {
@@ -94,14 +94,14 @@
         }
       ]
     },
-    "docs/api/2-only.mdx": {
+    "docs/src/api/2-only.mdx": {
       "name": "only",
       "route": "/api/only",
       "menu": "API",
-      "id": "13511d4968124126470dc9836977cbed",
-      "filepath": "docs/api/2-only.mdx",
+      "id": "b849d2cbfd46c6e0b76c3583a44aa77d",
+      "filepath": "docs/src/api/2-only.mdx",
       "link": null,
-      "slug": "docs-api-2-only",
+      "slug": "docs-src-api-2-only",
       "order": 0,
       "headings": [
         {
@@ -121,14 +121,14 @@
         }
       ]
     },
-    "docs/api/3-make.mdx": {
+    "docs/src/api/3-make.mdx": {
       "name": "make",
       "route": "/api/make",
       "menu": "API",
-      "id": "a2817f75b6aa0e91a33049025acd4261",
-      "filepath": "docs/api/3-make.mdx",
+      "id": "22dea26879aa85d9777ac58be5174d1d",
+      "filepath": "docs/src/api/3-make.mdx",
       "link": null,
-      "slug": "docs-api-3-make",
+      "slug": "docs-src-api-3-make",
       "order": 0,
       "headings": [
         {
@@ -148,14 +148,14 @@
         }
       ]
     },
-    "docs/api/4-seed.mdx": {
+    "docs/src/api/4-seed.mdx": {
       "name": "seed",
       "route": "/api/seed",
       "menu": "API",
-      "id": "40f88f2bac664dcff43c1b92f4c00c7d",
-      "filepath": "docs/api/4-seed.mdx",
+      "id": "8eacbb77d10e8cca49fee2836815073a",
+      "filepath": "docs/src/api/4-seed.mdx",
       "link": null,
-      "slug": "docs-api-4-seed",
+      "slug": "docs-src-api-4-seed",
       "order": 0,
       "headings": [
         {
@@ -175,14 +175,14 @@
         }
       ]
     },
-    "docs/api/5-types.mdx": {
+    "docs/src/api/5-types.mdx": {
       "name": "types",
       "route": "/api/types",
       "menu": "API",
-      "id": "25ab6dcbcc8ab30cdcdabb62ee690ffa",
-      "filepath": "docs/api/5-types.mdx",
+      "id": "b8b09612be0ae28345c17f2dae6e5efd",
+      "filepath": "docs/src/api/5-types.mdx",
       "link": null,
-      "slug": "docs-api-5-types",
+      "slug": "docs-src-api-5-types",
       "order": 0,
       "headings": [
         {
@@ -207,13 +207,13 @@
         }
       ]
     },
-    "docs/observations/updateFromV012.mdx": {
+    "docs/src/observations/updateFromV012.mdx": {
       "name": "Update from v0.1.2",
       "route": "/obs/update-0-1-2",
-      "id": "0739fa0fbee735ae2a73d7241ef062d7",
-      "filepath": "docs/observations/updateFromV012.mdx",
+      "id": "c878b6e2dfbcd4bb3b08d32288f1497a",
+      "filepath": "docs/src/observations/updateFromV012.mdx",
       "link": null,
-      "slug": "docs-observations-update-from-v012",
+      "slug": "docs-src-observations-update-from-v012",
       "order": 0,
       "menu": null,
       "headings": [
