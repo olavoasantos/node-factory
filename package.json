@@ -1,17 +1,17 @@
 {
   "name": "node-factory",
-  "version": "0.2.1",
-  "description": "",
+  "version": "0.2.2",
+  "description": "Easy way to create random data for your tests",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
     "build": "tsc",
     "lint": "tslint -p tsconfig.json",
     "test": "jest --config jestconfig.json",
+    "format": "prettier --write \"src/**/*.ts\" \"src/**/*.js\"",
     "docs:dev": "yarn docz dev",
     "docs:build": "docz build --base /node-factory/",
-    "docs:deploy": "yarn docs:build && gh-pages -d .docz/dist",
-    "format": "prettier --write \"src/**/*.ts\" \"src/**/*.js\""
+    "docs:deploy": "yarn docs:build && gh-pages -d .docz/dist"
   },
   "files": [
     "dist/**/*"
@@ -20,8 +20,13 @@
     "name": "Olavo Amorim Santos",
     "email": "olavo.a.santos@gmail.com"
   },
+  "homepage": "https://olavoasantos.github.io/node-factory/",
+  "repository": {
+    "type" : "git",
+    "url" : "https://github.com/olavoasantos/node-factory.git"
+  },
   "license": "MIT",
-  "keywords": [],
+  "keywords": ["data factory", "testing"],
   "dependencies": {
     "faker": "^4.1.0"
   },
