@@ -8,6 +8,7 @@
     "build": "tsc",
     "lint": "tslint -p tsconfig.json",
     "test": "jest --config jestconfig.json",
+    "docs:dev": "yarn docz dev",
     "docs:build": "docz build --base /node-factory/",
     "docs:deploy": "yarn docs:build && gh-pages -d .docz/dist",
     "format": "prettier --write \"src/**/*.ts\" \"src/**/*.js\""
