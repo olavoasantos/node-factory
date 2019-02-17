@@ -1,12 +1,5 @@
 // tslint:disable
 import React from 'react';
-import { factory } from '../../src/index';
-
-const UserFactory = factory(fake => ({
-  id: fake.random.uuid(),
-  name: fake.name.findName(),
-  email: fake.internet.email(),
-}));
 
 function syntaxHighlight(json) {
   const styles = {
@@ -47,5 +40,7 @@ export default ({ parse }) => (
     padding: '20px',
     fontStyle: 'italic',
     fontSize: '18px',
-  }} dangerouslySetInnerHTML={{ __html: syntaxHighlight(parse(UserFactory)) }} />
+    maxWidth: '100%',
+    overflowY: 'auto',
+  }} dangerouslySetInnerHTML={{ __html: syntaxHighlight(parse()) }} />
 );

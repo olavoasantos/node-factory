@@ -1,0 +1,126 @@
+---
+name: Snapshot testing
+route: /examples/snapshot-testing
+menu: Examples
+---
+
+import { Link, Playground } from 'docz';
+import PostList from './PostList';
+import PostFactory from './PostFactory';
+import EchoJS from '../../components/EchoJS';
+import FormatJson from '../../components/FormatJson';
+
+# Snapshot testing
+
+When working with component libraries, such as [React.js](http://reactjs.org/), a common pattern of
+testing is using [snapshots](https://jestjs.io/docs/en/snapshot-testing). These are particularly
+useful to make sure your UI does not change unexpectedly. But, because of this, using random data
+to test snapshots creates a problems since, because the data changes, the snapshots will also
+change. Let's see how we can deal with this.
+
+For the sake of this example, let's say we are testing a blog app.
+
+## Factory
+
+To start, we might have a factory in the likes of:
+
+```js
+// ./path/to/PostFactory.js
+import { factory } from 'node-factory';
+
+const PostFactory = factory(fake => ({
+  id: fake.random.uuid(),
+  title: fake.lorem.sentence(),
+}));
+
+export default PostFactory;
+```
+
+<FormatJson parse={() => PostFactory.create()} />
+
+## Component
+
+So let's say we have a component which lists the blog posts:
+
+```js
+// ./path/to/PostList.jsx
+import React from 'react';
+
+const PostList = ({ list }) => (
+  <>
+    <h2>Posts</h2>
+    <ul>
+      {list.map(post => (
+        <li key={post.id}>
+          <a href={`#/posts/${post.id}`}>{post.title}</a>
+        </li>
+      ))}
+    </ul>
+  </>
+);
+
+export default PostList;
+```
+
+<Playground>
+  {() => (
+    <PostList list={PostFactory.make(2)} />
+  )}
+</Playground>
+
+## The test problem
+
+So, for a very basic test, we can use the snapshot to make sure the UI won't change:
+
+```js
+// ./path/to/PostList.spec.jsx
+import React from 'react';
+import { shallow } from 'enzyme';
+import PostList from './path/to/PostList';
+import PostFactory from './path/to/PostFactory';
+
+describe('The PostList component', () => {
+  it('should match the snapshot', () => {
+    const list = PostFactory.make(2);
+    const component = shallow(<PostList list={list} />);
+
+    expect(component).toMatchSnapshot();
+  });
+});
+```
+
+On the first run, you might get something like:
+
+<EchoJS>{() => ('PASS  ./path/to/PostList.spec.jsx\n  The PostList component\n    ✓ should match the snapshot (8ms)\n\n - 1 snapshot written.\nSnapshot Summary\n - 1 snapshot written in 1 test suite.\n\nTest Suites: 1 passed, 1 total\nTests:       1 passed, 1 total\nSnapshots:   1 added, 1 total\nTime:        1.498s, estimated 4s\n')}</EchoJS>
+
+But if you run it again, you'll probably see a big fat error:
+
+<EchoJS>{() => 'FAIL  ./path/to/PostList.spec.jsx\n  The PostList component\n    ✕ should match the snapshot (18ms)\n\n  ● The PostList component › should match the snapshot\n\n    expect(value).toMatchSnapshot()\n    \n    Received value does not match stored snapshot\n\n › 1 snapshot test failed.\nSnapshot Summary\n › 1 snapshot test failed in 1 test suite. Inspect your code changes or press `u` to update them.\n\nTest Suites: 1 failed, 1 total\nTests:       1 failed, 1 total\nSnapshots:   1 failed, 1 total\nTime:        4.97s'}</EchoJS>
+
+## The solution
+
+So, since we have random data being generated at every test run, our snapshots will never be the same. To fix
+this, we need the randomness of the data **not** to be so random. To achieve this, we can pass a `seed`
+which will be used to generate the random data. By using the [`seed` method](/api/seed):
+
+```js
+// ./path/to/PostList.spec.jsx
+import React from 'react';
+import { shallow } from 'enzyme';
+import PostList from './path/to/PostList';
+import PostFactory from './path/to/PostFactory';
+
+describe('The PostList component', () => {
+  it('should match the snapshot', () => {
+    // Add the seed method before calling make
+    const list = PostFactory.seed(123).make(2);
+    const component = shallow(<PostList list={list} />);
+
+    expect(component).toMatchSnapshot();
+  });
+});
+```
+
+With this in place, we now get the same result every time!
+
+<EchoJS>{() => 'PASS  ./path/to/PostList.spec.jsx\n  The PostList component\n    ✓ should match the snapshot (5ms)\n\nTest Suites: 1 passed, 1 total\nTests:       1 passed, 1 total\nSnapshots:   1 passed, 1 total\nTime:        1.367s'}</EchoJS>
