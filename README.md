@@ -9,9 +9,7 @@ This package allows you to define a default set of attributes for each of your e
 
 ## Docs
 
-1. [Main](https://olavoasantos.github.io/node-factory/)
-2. [API](https://olavoasantos.github.io/node-factory/api/factory)
-3. [Examples](https://olavoasantos.github.io/node-factory/api/factory)
+Check out our documentation for APIs and examples at [https://olavoasantos.github.io/node-factory/](https://olavoasantos.github.io/node-factory/)
 
 ## Installation
 
