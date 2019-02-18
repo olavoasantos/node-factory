@@ -1,7 +1,7 @@
 {
   "name": "node-factory",
   "version": "0.2.3",
-  "description": "Easy way to create random data for your tests",
+  "description": "Easy way to generate random data for your tests",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
