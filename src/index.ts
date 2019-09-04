@@ -1,5 +1,8 @@
 import faker from 'faker';
+import { isObject } from './helpers';
 import { FactoryGenerator, IDataObject, IFactoryObject } from './types';
+
+export * from './types';
 
 export const resolveArgs = (...args: any[]): IDataObject =>
   args.reduce(
@@ -15,27 +18,21 @@ export const resolveArgs = (...args: any[]): IDataObject =>
     { length: 1, data: {} },
   );
 
-export const merge = (data: IDataObject, overrides: IDataObject) => {
-  const merged = Object.keys(data).reduce(
-    (values, key) => {
-      if (values.wasMerged) {
-        values.data = { ...values.data, [key]: data[key] };
-      } else if (!overrides[key]) {
-        values.data = {
-          ...values.data,
-          [key]: typeof data[key] !== 'object' ? data[key] : merge(data[key], overrides),
-        };
-      } else {
-        values.data = { ...values.data, [key]: overrides[key] };
-        values.wasMerged = true;
-      }
+export const merge = (data: IDataObject, overrides: IDataObject): IDataObject => {
+  return Object.keys(data).reduce((values, key) => {
+    if (!overrides[key]) {
+      return {
+        ...values,
+        [key]: !isObject(data[key]) ? data[key] : merge(data[key], overrides),
+      };
+    }
 
-      return values;
-    },
-    { wasMerged: false, data: {} },
-  );
+    const { [key]: override, ...rest } = overrides;
+    values = { ...values, [key]: override };
+    overrides = rest;
 
-  return merged.data;
+    return values;
+  }, {});
 };
 
 export const factory = (generator: FactoryGenerator): IFactoryObject => {

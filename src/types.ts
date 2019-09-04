@@ -3,9 +3,9 @@ export interface IDataObject {
 }
 
 export interface IFactoryObject {
-  create: (overrides?: IDataObject) => IDataObject;
-  only: (keys: string | string[], overrides?: IDataObject) => IDataObject;
-  make: (count?: number | IDataObject, overrides?: IDataObject) => IDataObject[];
+  create: (overrides?: IDataObject) => any;
+  only: (keys: string | string[], overrides?: IDataObject) => any;
+  make: (count?: number | IDataObject, overrides?: IDataObject) => any[];
   seed: (value: number) => IFactoryObject;
 }
 
