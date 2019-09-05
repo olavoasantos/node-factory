@@ -9,4 +9,4 @@ export interface IFactoryObject {
   seed: (value: number) => IFactoryObject;
 }
 
-export type FactoryGenerator = (fake: Faker.FakerStatic) => IDataObject;
+export type FactoryGenerator = (fake: any) => IDataObject;
