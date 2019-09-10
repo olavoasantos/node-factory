@@ -41,7 +41,7 @@ export const merge = (data: IDataObject, overrides: IDataObject): IDataObject =>
 };
 
 export const factory = (generator: FactoryGenerator): IFactoryObject => {
-  const create = (overrides: IDataObject | any[] | null = null ): IDataObject => {
+  const create = (overrides: IDataObject | any[] | null = null): IDataObject => {
     const data = generator(faker);
 
     if (overrides === null) {

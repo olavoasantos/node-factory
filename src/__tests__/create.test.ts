@@ -29,11 +29,7 @@ describe('create tests', () => {
   });
 
   it('should create an array factory', () => {
-    const arrayFactory = factory(fake => [
-      fake.name.findName(),
-      fake.name.findName(),
-      fake.name.findName(),
-    ]);
+    const arrayFactory = factory(fake => [fake.name.findName(), fake.name.findName(), fake.name.findName()]);
 
     const created = arrayFactory.create();
 
