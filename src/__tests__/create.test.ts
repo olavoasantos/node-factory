@@ -17,7 +17,7 @@ describe('create tests', () => {
     expect(typeof data.email).toBe('string');
   });
 
-  it('should create a single object with overitten data', () => {
+  it('should create a single object with overwritten data', () => {
     const data = Factory.create({ name: 'JOHN DOE' });
 
     expect(typeof data).toBe('object');
@@ -26,5 +26,17 @@ describe('create tests', () => {
     expect(data.name).toBe('JOHN DOE');
     expect(data).toHaveProperty('email');
     expect(typeof data.email).toBe('string');
+  });
+
+  it('should create an array factory', () => {
+    const arrayFactory = factory(fake => [
+      fake.name.findName(),
+      fake.name.findName(),
+      fake.name.findName(),
+    ]);
+
+    const created = arrayFactory.create();
+
+    expect(Array.isArray(created)).toBeTruthy();
   });
 });

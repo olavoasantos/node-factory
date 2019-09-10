@@ -21,9 +21,7 @@ export const resolveArgs = (...args: any[]): IDataObject =>
 export const merge = (data: IDataObject, overrides: IDataObject): IDataObject => {
   if (Array.isArray(data) && Array.isArray(overrides)) {
     return data.map((value: any, key: number) => {
-      return key < overrides.length
-        ? overrides[key]
-        : value;
+      return key < overrides.length ? overrides[key] : value;
     });
   }
   return Object.keys(data).reduce((values, key) => {
@@ -43,8 +41,12 @@ export const merge = (data: IDataObject, overrides: IDataObject): IDataObject =>
 };
 
 export const factory = (generator: FactoryGenerator): IFactoryObject => {
-  const create = (overrides: IDataObject = {}): IDataObject => {
+  const create = (overrides: IDataObject | any[] | null = null ): IDataObject => {
     const data = generator(faker);
+
+    if (overrides === null) {
+      return merge(data, Array.isArray(data) ? [] : {});
+    }
 
     return merge(data, overrides);
   };
