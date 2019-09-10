@@ -31,4 +31,16 @@ describe('seed tests', () => {
 
     expect(merged).toMatchObject({ k: 'O', l: ['p', 'n'] });
   });
+
+  it('should set the value to undefined', () => {
+    const merged = merge(object1, { a: undefined });
+
+    expect(merged).toMatchObject({ a: undefined, b: 'B' });
+  });
+
+  it('should merge two arrays', () => {
+    const merged = merge([1, 2, 3], [4, 5]);
+
+    expect(merged).toMatchObject([4, 5, 3]);
+  });
 });
