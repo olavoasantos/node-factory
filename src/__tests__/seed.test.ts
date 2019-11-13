@@ -12,19 +12,18 @@ describe('seed tests', () => {
   }));
 
   it('should return the same values', () => {
-    const data1 = Factory.seed(123).create();
-    const data2 = Factory.seed(123).create();
-    const data3 = Factory.create();
+    const data1 = Factory.seed(123).make();
+    const data2 = Factory.seed(123).make();
+    const data3 = Factory.make();
 
     expect(data1).toMatchObject(data2);
     expect(data1).not.toMatchObject(data3);
   });
 
   it('should return the same values when using make', async () => {
-    const data1 = await Factory.seed(123).make(2);
-    const data2 = await Factory.seed(123).make(2);
+    const data1 = await Factory.seed(123).create(2);
+    const data2 = await Factory.seed(123).create(2);
 
-    expect(data1[0]).toMatchObject(data2[0]);
-    expect(data1[1]).toMatchObject(data2[1]);
+    expect(data1).toMatchObject(data2);
   });
 });

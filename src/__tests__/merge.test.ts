@@ -1,4 +1,4 @@
-import { merge } from '../index';
+import { merge } from '../helpers';
 
 describe('seed tests', () => {
   const object1 = { a: 'A', b: 'B' };

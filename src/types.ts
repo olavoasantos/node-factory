@@ -17,11 +17,12 @@ export interface PromiseGenerator<T> {
 }
 
 export interface IFactoryObject<T = any> {
-  create: StateGenerator<T>;
-  make: PromiseGenerator<T>;
+  make: StateGenerator<T>;
+  create: PromiseGenerator<T>;
   only: (keys: keyof T | Array<keyof T>, overrides?: IDataObject) => Partial<T>;
   seed: (value: number) => IFactoryObject<T>;
   state: (name: string, stateValues: IDataObject) => void;
+  configDatabase(options: DatabaseConfig<T>): void;
 }
 
 export interface GenericExtension<T> {
@@ -29,3 +30,24 @@ export interface GenericExtension<T> {
 }
 
 export type FactoryGenerator = (fake: any) => IDataObject;
+
+export interface DatabaseConfig<T> {
+  insert(data: T): Promise<any>;
+  hydrate(data: T): Promise<any>;
+}
+
+export interface EnumGet<T> {
+  (): T;
+  (count: number): T[];
+}
+
+export interface EnumUnique<T> {
+  (): T;
+  (count: number): T[];
+}
+
+export interface EnumFactory<T> {
+  get: EnumGet<T>;
+  unique: EnumUnique<T>;
+  seed(value?: number): EnumFactory<T>;
+}
