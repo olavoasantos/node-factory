@@ -1,8 +1,12 @@
 import { factory } from '../index';
-import { IFactoryObject } from '../types';
 
 describe('factory tests', () => {
-  const Factory: IFactoryObject = factory(fake => ({
+  interface FactoryType {
+    email: string;
+    name: string;
+  }
+
+  const Factory = factory<FactoryType>(fake => ({
     email: fake.internet.email(),
     name: fake.name.firstName(),
   }));

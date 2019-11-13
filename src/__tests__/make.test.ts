@@ -1,14 +1,47 @@
 import { factory } from '../index';
-import { IFactoryObject } from '../types';
 
 describe('make tests', () => {
-  const Factory: IFactoryObject = factory(fake => ({
+  interface FactoryType {
+    email: string;
+    name: string;
+  }
+
+  const Factory = factory<FactoryType>(fake => ({
     email: fake.internet.email(),
     name: fake.name.firstName(),
   }));
 
-  it('should make a single object', () => {
-    const data = Factory.make();
+  it('should create a single object', async () => {
+    const data = await Factory.make();
+
+    expect(typeof data).toBe('object');
+    expect(data).toHaveProperty('name');
+    expect(typeof data.name).toBe('string');
+    expect(data).toHaveProperty('email');
+    expect(typeof data.email).toBe('string');
+  });
+
+  it('should create a single object with overwritten data', async () => {
+    const data = await Factory.make({ name: 'JOHN DOE' });
+
+    expect(typeof data).toBe('object');
+    expect(data).toHaveProperty('name');
+    expect(typeof data.name).toBe('string');
+    expect(data.name).toBe('JOHN DOE');
+    expect(data).toHaveProperty('email');
+    expect(typeof data.email).toBe('string');
+  });
+
+  it('should create an array factory', async () => {
+    const arrayFactory = factory<string[]>(fake => [fake.name.findName(), fake.name.findName(), fake.name.findName()]);
+
+    const created = await arrayFactory.make();
+
+    expect(Array.isArray(created)).toBeTruthy();
+  });
+
+  it('should make a single object', async () => {
+    const data = await Factory.make(1);
 
     expect(Array.isArray(data)).toBeTruthy();
     expect(data.length).toBe(1);
@@ -19,8 +52,8 @@ describe('make tests', () => {
     expect(typeof data[0].email).toBe('string');
   });
 
-  it('should make a single object with overriten data', () => {
-    const data = Factory.make({ name: 'JOHN DOE' });
+  it('should make a single object with overriten data', async () => {
+    const data = await Factory.make(1, { name: 'JOHN DOE' });
 
     expect(Array.isArray(data)).toBeTruthy();
     expect(data.length).toBe(1);
@@ -32,15 +65,15 @@ describe('make tests', () => {
     expect(typeof data[0].email).toBe('string');
   });
 
-  it('should make a given number of objects', () => {
-    const data = Factory.make(3);
+  it('should make a given number of objects', async () => {
+    const data = await Factory.make(3);
 
     expect(Array.isArray(data)).toBeTruthy();
     expect(data.length).toBe(3);
   });
 
-  it('should make a given number of objects with overriten data', () => {
-    const data = Factory.make(3, { name: 'JOHN DOE' });
+  it('should make a given number of objects with overriten data', async () => {
+    const data = await Factory.make(3, { name: 'JOHN DOE' });
 
     expect(Array.isArray(data)).toBeTruthy();
     expect(data.length).toBe(3);
@@ -49,15 +82,15 @@ describe('make tests', () => {
     });
   });
 
-  it('should make a single object if count is 0', () => {
-    const data = Factory.make(0);
+  it('should make a single object if count is 0', async () => {
+    const data = await Factory.make(0);
 
-    expect(data.length).toBe(1);
+    expect(Array.isArray(data)).toBeFalsy();
   });
 
-  it('should make a single object if count is negative', () => {
-    const data = Factory.make(-3);
+  it('should make a single object if count is negative', async () => {
+    const data = await Factory.make(-3);
 
-    expect(data.length).toBe(1);
+    expect(Array.isArray(data)).toBeFalsy();
   });
 });

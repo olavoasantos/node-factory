@@ -1,22 +1,17 @@
 import faker from 'faker';
-import { isObject } from './helpers';
-import { FactoryGenerator, IDataObject, IFactoryObject } from './types';
+import { isObject, resolveArgs } from './helpers';
+import { FactoryGenerator, GenericExtension, IDataObject, IFactoryObject, StateGenerator } from './types';
 
 export * from './types';
 
-export const resolveArgs = (...args: any[]): IDataObject =>
-  args.reduce(
-    (resolved, arg) => {
-      if (typeof arg === 'number') {
-        return { ...resolved, length: arg > 0 ? arg : 1 };
-      } else if (typeof arg === 'object') {
-        return { ...resolved, data: arg };
-      } else {
-        return resolved;
-      }
-    },
-    { length: 1, data: {} },
-  );
+const database = {
+  async insert(data: any) {
+    return data;
+  },
+  async hydrate(data: any) {
+    return data;
+  },
+};
 
 export const merge = (data: IDataObject, overrides: IDataObject): IDataObject => {
   if (Array.isArray(data) && Array.isArray(overrides)) {
@@ -40,37 +35,107 @@ export const merge = (data: IDataObject, overrides: IDataObject): IDataObject =>
   }, {});
 };
 
-export const factory = (generator: FactoryGenerator): IFactoryObject => {
-  const create = (overrides: IDataObject | any[] | null = null): IDataObject => {
+export const factory = <T, A = GenericExtension<T>>(generator: FactoryGenerator): IFactoryObject<T> & A => {
+  const generate = (overrides: IDataObject | any[] | null = null) => {
     const data = generator(faker);
 
     if (overrides === null) {
-      return merge(data, Array.isArray(data) ? [] : {});
+      return merge(data, Array.isArray(data) ? [] : {}) as T;
     }
 
-    return merge(data, overrides);
+    return merge(data, overrides) as T;
   };
 
-  const make = (count: number | IDataObject = 1, overrides?: IDataObject): IDataObject[] => {
+  function create(): T;
+  function create(overrides: IDataObject): T;
+  function create(count: number): T[];
+  function create(count: number, overrides: IDataObject): T[];
+  function create(count?: number | IDataObject, overrides?: IDataObject) {
+    if (!Boolean(count) || (count && count < 1)) {
+      return generate() as T;
+    }
+
+    if (typeof count === 'object') {
+      return generate(count) as T;
+    }
+
     const { data, length } = resolveArgs(count, overrides);
+    return Array.from({ length }).map(() => generate(data)) as T[];
+  }
 
-    return Array.from({ length }).map(() => create(data));
-  };
+  async function make(): Promise<T>;
+  async function make(overrides: IDataObject): Promise<T>;
+  async function make(count: number): Promise<T[]>;
+  async function make(count: number, overrides: IDataObject): Promise<T[]>;
+  async function make(count?: number | IDataObject, overrides?: IDataObject): Promise<T | T[]> {
+    let mock: T | T[];
+    if (!Boolean(count) || (count && count < 1)) {
+      mock = generate() as T;
+    } else if (typeof count === 'object') {
+      mock = generate(count) as T;
+    } else {
+      const { data, length } = resolveArgs(count, overrides);
+      mock = Array.from({ length }).map(() => generate(data)) as T[];
+    }
 
-  const only = (keys: string | string[], overrides: IDataObject = {}): IDataObject => {
+    if (Array.isArray(mock)) {
+      return await Promise.all(
+        mock.map(async (model: T) => {
+          await database.insert(model);
+          return database.hydrate(model);
+        }),
+      );
+    }
+
+    await database.insert(mock);
+    return database.hydrate(mock);
+  }
+
+  const only = (keys: keyof T | Array<keyof T>, overrides: IDataObject = {}) => {
     const data = create(overrides);
 
-    return Array.isArray(keys)
-      ? keys.reduce((filtered: IDataObject, key) => ({ ...filtered, [key]: data[key] }), {})
-      : { [keys]: data[keys] };
+    return (Array.isArray(keys)
+      ? keys.reduce((filtered: Partial<T>, key) => ({ ...filtered, [key]: (data as Partial<T>)[key] }), {})
+      : { [keys]: (data as Partial<T>)[keys] }) as Partial<T>;
   };
 
-  const seed = (value: number) => {
+  const seed = (value: number): IFactoryObject<T> => {
     faker.seed(value);
     return factoryObject;
   };
 
-  const factoryObject: IFactoryObject = { create, make, only, seed };
+  const state = (name: string, stateValues: IDataObject) => {
+    if (['create', 'make', 'only', 'seed', 'state'].indexOf(name) < 0) {
+      function stateGenerator(): T;
+      function stateGenerator(overrides: IDataObject): T;
+      function stateGenerator(count: number): T[];
+      function stateGenerator(count: number, overrides: IDataObject): T[];
+      function stateGenerator(count: number | IDataObject = 1, overrides?: IDataObject): T | T[] {
+        if (!Boolean(count) || (count && count < 1)) {
+          return generate(stateValues) as T;
+        }
 
-  return factoryObject;
+        if (typeof count === 'object') {
+          return generate({
+            ...stateValues,
+            ...count,
+          }) as T;
+        }
+
+        const { data, length } = resolveArgs(count, overrides);
+        return Array.from({ length }).map(() =>
+          create({
+            ...stateValues,
+            ...data,
+          }),
+        ) as T[];
+      }
+
+      (factoryObject as any)[name as keyof A] = stateGenerator as StateGenerator<T>;
+    }
+  };
+
+  const factoryObject = { create, make, only, seed, state };
+
+  return factoryObject as IFactoryObject<T> & A;
 };

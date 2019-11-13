@@ -1,4 +1,4 @@
-import { resolveArgs } from '../index';
+import { resolveArgs } from '../helpers';
 
 describe('resolveArgs tests', () => {
   const count = 5;
