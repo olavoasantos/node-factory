@@ -52,7 +52,7 @@ describe('create tests', () => {
     expect(typeof data[0].email).toBe('string');
   });
 
-  it('should make a single object with overriten data', async () => {
+  it('should make a single object with overwritten data', async () => {
     const data = await Factory.create(1, { name: 'JOHN DOE' });
 
     expect(Array.isArray(data)).toBeTruthy();
@@ -72,7 +72,7 @@ describe('create tests', () => {
     expect(data.length).toBe(3);
   });
 
-  it('should make a given number of objects with overriten data', async () => {
+  it('should make a given number of objects with overwritten data', async () => {
     const data = await Factory.create(3, { name: 'JOHN DOE' });
 
     expect(Array.isArray(data)).toBeTruthy();
@@ -94,5 +94,22 @@ describe('create tests', () => {
 
     expect(Array.isArray(data)).toBeTruthy();
     expect(data.length).toBe(1);
+  });
+
+
+  it('should accept overrides as a function', async () => {
+    const data = await Factory.create(() => ({
+      name: 'OVERWRITTEN',
+    }));
+
+    expect(data.name).toBe('OVERWRITTEN');
+  });
+
+  it('should accept overrides as a function as second argument', async () => {
+    const [data] = await Factory.create(1, () => ({
+      name: 'OVERWRITTEN',
+    }));
+
+    expect(data.name).toBe('OVERWRITTEN');
   });
 });

@@ -5,23 +5,23 @@ export interface IDataObject {
 
 export interface StateGenerator<T> {
   (): T;
-  (overrides: IDataObject): T;
+  (overrides: IDataObject | FactoryGenerator): T;
   (count: number): T[];
-  (count: number, overrides: IDataObject): T[];
+  (count: number, overrides: IDataObject | FactoryGenerator): T[];
 }
 export interface PromiseGenerator<T> {
   (): Promise<T>;
-  (overrides: IDataObject): Promise<T>;
+  (overrides: IDataObject | FactoryGenerator): Promise<T>;
   (count: number): Promise<T[]>;
-  (count: number, overrides: IDataObject): Promise<T[]>;
+  (count: number, overrides: IDataObject | FactoryGenerator): Promise<T[]>;
 }
 
 export interface IFactoryObject<T = any> {
   make: StateGenerator<T>;
   create: PromiseGenerator<T>;
-  only: (keys: keyof T | Array<keyof T>, overrides?: IDataObject) => Partial<T>;
+  only: (keys: keyof T | Array<keyof T>, overrides?: IDataObject | FactoryGenerator) => Partial<T>;
   seed: (value: number) => IFactoryObject<T>;
-  state: (name: string, stateValues: IDataObject) => void;
+  state: (name: string, stateValues: IDataObject | FactoryGenerator) => void;
   configDatabase(options: DatabaseConfig<T>): void;
 }
 

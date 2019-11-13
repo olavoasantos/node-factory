@@ -52,7 +52,7 @@ describe('make tests', () => {
     expect(typeof data[0].email).toBe('string');
   });
 
-  it('should make a single object with overriten data', () => {
+  it('should make a single object with overwritten data', () => {
     const data = Factory.make(1, { name: 'JOHN DOE' });
 
     expect(Array.isArray(data)).toBeTruthy();
@@ -72,7 +72,7 @@ describe('make tests', () => {
     expect(data.length).toBe(3);
   });
 
-  it('should make a given number of objects with overriten data', () => {
+  it('should make a given number of objects with overwritten data', () => {
     const data = Factory.make(3, { name: 'JOHN DOE' });
 
     expect(Array.isArray(data)).toBeTruthy();
@@ -94,5 +94,21 @@ describe('make tests', () => {
 
     expect(Array.isArray(data)).toBeTruthy();
     expect(data.length).toBe(1);
+  });
+
+  it('should accept overrides as a function', () => {
+    const data = Factory.make(() => ({
+      name: 'OVERWRITTEN',
+    }));
+
+    expect(data.name).toBe('OVERWRITTEN');
+  });
+
+  it('should accept overrides as a function as second argument', () => {
+    const [data] = Factory.make(1, () => ({
+      name: 'OVERWRITTEN',
+    }));
+
+    expect(data.name).toBe('OVERWRITTEN');
   });
 });

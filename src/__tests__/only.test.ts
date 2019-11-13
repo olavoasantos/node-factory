@@ -29,12 +29,23 @@ describe('only tests', () => {
     expect(typeof data.email).toBe('string');
   });
 
-  it('should return only certain fields with overriten data', () => {
+  it('should return only certain fields with overwritten data', () => {
     const data = Factory.only(['email'], { email: 'john@example.com' });
 
     expect(typeof data).toBe('object');
     expect(data).not.toHaveProperty('name');
     expect(data).toHaveProperty('email');
     expect(data.email).toBe('john@example.com');
+  });
+
+  it('should return only certain fields with overwritten data', () => {
+    const data = Factory.only(['name'], () => ({
+      name: 'OVERWRITTEN',
+    }));
+
+    expect(typeof data).toBe('object');
+    expect(data).not.toHaveProperty('email');
+    expect(data).toHaveProperty('name');
+    expect(data.name).toBe('OVERWRITTEN');
   });
 });

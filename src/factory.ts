@@ -1,5 +1,5 @@
 import faker from 'faker';
-import { merge, resolveArgs } from './helpers';
+import { isFunction, merge, resolveArgs } from './helpers';
 import {
   DatabaseConfig,
   FactoryGenerator,
@@ -29,7 +29,7 @@ const factory = <T, A = GenericExtension<T>>(generator: FactoryGenerator) => {
     return merge(data, overrides) as T;
   };
 
-  const make = (count?: number | IDataObject, overrides?: IDataObject) => {
+  const make = (count?: number | IDataObject | FactoryGenerator, overrides?: IDataObject | FactoryGenerator) => {
     let mock: T | T[];
     if (count === undefined) {
       mock = generate() as T;
@@ -37,6 +37,8 @@ const factory = <T, A = GenericExtension<T>>(generator: FactoryGenerator) => {
       mock = [generate()] as T[];
     } else if (typeof count === 'object') {
       mock = generate(count) as T;
+    } else if (isFunction(count) && typeof count === 'function') {
+      mock = generate(count(faker)) as T;
     } else {
       const { data, length } = resolveArgs(count, overrides);
       mock = Array.from({ length }).map(() => generate(data)) as T[];
@@ -47,7 +49,7 @@ const factory = <T, A = GenericExtension<T>>(generator: FactoryGenerator) => {
     return mock;
   };
 
-  const create = async (count?: number | IDataObject, overrides?: IDataObject) => {
+  const create = async (count?: number | IDataObject | FactoryGenerator, overrides?: IDataObject | FactoryGenerator) => {
     let mock: T | T[];
     if (count != null && count < 1) {
       mock = [generate()] as T[];
@@ -55,6 +57,8 @@ const factory = <T, A = GenericExtension<T>>(generator: FactoryGenerator) => {
       mock = generate() as T;
     } else if (typeof count === 'object') {
       mock = generate(count) as T;
+    } else if (isFunction(count) && typeof count === 'function') {
+      mock = generate(count(faker)) as T;
     } else {
       const { data, length } = resolveArgs(count, overrides);
       mock = Array.from({ length }).map(() => generate(data)) as T[];
@@ -75,8 +79,11 @@ const factory = <T, A = GenericExtension<T>>(generator: FactoryGenerator) => {
     return database.hydrate(mock);
   };
 
-  const only = (keys: keyof T | Array<keyof T>, overrides: IDataObject = {}) => {
-    const data = make(overrides);
+  const only = (keys: keyof T | Array<keyof T>, overrides: IDataObject | FactoryGenerator = {}) => {
+    const overrideData = (isFunction(overrides) && typeof overrides === 'function')
+      ? overrides(faker)
+      : overrides;
+    const data = make(overrideData);
 
     return (Array.isArray(keys)
       ? keys.reduce((filtered: Partial<T>, key) => ({ ...filtered, [key]: (data as Partial<T>)[key] }), {})
@@ -88,19 +95,22 @@ const factory = <T, A = GenericExtension<T>>(generator: FactoryGenerator) => {
     return factoryObject;
   };
 
-  const state = (name: string, stateValues: IDataObject) => {
+  const state = (name: string, stateValues: IDataObject | FactoryGenerator) => {
     if (['create', 'make', 'only', 'seed', 'state', 'configDatabase'].indexOf(name) < 0) {
-      const stateGenerator = (count: number | IDataObject, overrides?: IDataObject) => {
+      const stateData = (isFunction(stateValues) && typeof stateValues === 'function') ? stateValues(faker) : stateValues;
+      const stateGenerator = (count: number | IDataObject | FactoryGenerator, overrides?: IDataObject | FactoryGenerator) => {
         let mock: T | T[];
         if (count === undefined) {
-          mock = generate(stateValues) as T;
+          mock = generate(stateData) as T;
         } else if (count < 1) {
-          mock = [generate(stateValues)] as T[];
+          mock = [generate(stateData)] as T[];
         } else if (typeof count === 'object') {
-          mock = generate({ ...stateValues, ...count }) as T;
+          mock = generate({ ...stateData, ...count }) as T;
+        } else if (isFunction(count) && typeof count === 'function') {
+          mock = generate({ ...stateData, ...count(faker) }) as T;
         } else {
           const { data, length } = resolveArgs(count, overrides);
-          mock = Array.from({ length }).map(() => generate({ ...stateValues, ...data })) as T[];
+          mock = Array.from({ length }).map(() => generate({ ...stateData, ...data })) as T[];
         }
 
         faker.seed(faker.random.number());
