@@ -34,14 +34,14 @@ const enumFactory = <T = any>(array: any[]) => {
     faker.seed(faker.random.number());
 
     return mock as Partial<T>;
-  }
+  };
 
   const seed = (value?: number) => {
     if (value) {
       faker.seed(value);
     }
     return enumFactoryObject;
-  }
+  };
 
   const enumFactoryObject = { seed, get, unique };
 

@@ -1,6 +1,13 @@
 import faker from 'faker';
 import { merge, resolveArgs } from './helpers';
-import { DatabaseConfig, FactoryGenerator, GenericExtension, IDataObject, IFactoryObject, StateGenerator } from './types';
+import {
+  DatabaseConfig,
+  FactoryGenerator,
+  GenericExtension,
+  IDataObject,
+  IFactoryObject,
+  StateGenerator,
+} from './types';
 
 const factory = <T, A = GenericExtension<T>>(generator: FactoryGenerator) => {
   const database: DatabaseConfig<T> = {
@@ -38,7 +45,7 @@ const factory = <T, A = GenericExtension<T>>(generator: FactoryGenerator) => {
     faker.seed(faker.random.number());
 
     return mock;
-  }
+  };
 
   const create = async (count?: number | IDataObject, overrides?: IDataObject) => {
     let mock: T | T[];
@@ -66,7 +73,7 @@ const factory = <T, A = GenericExtension<T>>(generator: FactoryGenerator) => {
 
     await database.insert(mock);
     return database.hydrate(mock);
-  }
+  };
 
   const only = (keys: keyof T | Array<keyof T>, overrides: IDataObject = {}) => {
     const data = make(overrides);
@@ -106,8 +113,8 @@ const factory = <T, A = GenericExtension<T>>(generator: FactoryGenerator) => {
 
         faker.seed(faker.random.number());
 
-        return mock
-      }
+        return mock;
+      };
 
       (factoryObject as any)[name as keyof A] = stateGenerator as StateGenerator<T>;
     }
@@ -119,7 +126,7 @@ const factory = <T, A = GenericExtension<T>>(generator: FactoryGenerator) => {
         (database as any)[key] = (options as any)[key];
       }
     });
-  }
+  };
 
   const factoryObject = { create, make, only, seed, state, configDatabase };
 
