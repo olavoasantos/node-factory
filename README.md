@@ -27,19 +27,25 @@ npm install --save-dev node-factory
 
 ## Usage
 
-```js
+```typescript
 // 1. Import the factory generator
 import { factory } from 'node-factory';
 
 // 2. Create a factory
-const UserFactory = factory(fake => ({
+interface User {
+  id: string;
+  name: string;
+  email: string;
+}
+
+const UserFactory = factory<User>(fake => ({
   id: fake.random.uuid(),
   name: fake.name.findName(),
   email: fake.internet.email(),
 }));
 
 // 3. Generate data
-UserFactory.create();
+UserFactory.make();
 ```
 
 ## Author

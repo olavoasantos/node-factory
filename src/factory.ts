@@ -90,25 +90,17 @@ const factory = <T, A = GenericExtension<T>>(generator: FactoryGenerator) => {
 
   const state = (name: string, stateValues: IDataObject) => {
     if (['create', 'make', 'only', 'seed', 'state', 'configDatabase'].indexOf(name) < 0) {
-      const stateGenerator = (count: number | IDataObject = 1, overrides?: IDataObject) => {
+      const stateGenerator = (count: number | IDataObject, overrides?: IDataObject) => {
         let mock: T | T[];
         if (count === undefined) {
           mock = generate(stateValues) as T;
         } else if (count < 1) {
           mock = [generate(stateValues)] as T[];
         } else if (typeof count === 'object') {
-          mock = generate({
-            ...stateValues,
-            ...count,
-          }) as T;
+          mock = generate({ ...stateValues, ...count }) as T;
         } else {
           const { data, length } = resolveArgs(count, overrides);
-          mock = Array.from({ length }).map(() =>
-            make({
-              ...stateValues,
-              ...data,
-            }),
-          ) as T[];
+          mock = Array.from({ length }).map(() => generate({ ...stateValues, ...data })) as T[];
         }
 
         faker.seed(faker.random.number());
