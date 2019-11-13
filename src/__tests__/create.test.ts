@@ -96,7 +96,6 @@ describe('create tests', () => {
     expect(data.length).toBe(1);
   });
 
-
   it('should accept overrides as a function', async () => {
     const data = await Factory.create(() => ({
       name: 'OVERWRITTEN',

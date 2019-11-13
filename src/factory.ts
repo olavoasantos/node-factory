@@ -49,7 +49,10 @@ const factory = <T, A = GenericExtension<T>>(generator: FactoryGenerator) => {
     return mock;
   };
 
-  const create = async (count?: number | IDataObject | FactoryGenerator, overrides?: IDataObject | FactoryGenerator) => {
+  const create = async (
+    count?: number | IDataObject | FactoryGenerator,
+    overrides?: IDataObject | FactoryGenerator,
+  ) => {
     let mock: T | T[];
     if (count != null && count < 1) {
       mock = [generate()] as T[];
@@ -80,9 +83,7 @@ const factory = <T, A = GenericExtension<T>>(generator: FactoryGenerator) => {
   };
 
   const only = (keys: keyof T | Array<keyof T>, overrides: IDataObject | FactoryGenerator = {}) => {
-    const overrideData = (isFunction(overrides) && typeof overrides === 'function')
-      ? overrides(faker)
-      : overrides;
+    const overrideData = isFunction(overrides) && typeof overrides === 'function' ? overrides(faker) : overrides;
     const data = make(overrideData);
 
     return (Array.isArray(keys)
@@ -97,8 +98,11 @@ const factory = <T, A = GenericExtension<T>>(generator: FactoryGenerator) => {
 
   const state = (name: string, stateValues: IDataObject | FactoryGenerator) => {
     if (['create', 'make', 'only', 'seed', 'state', 'configDatabase'].indexOf(name) < 0) {
-      const stateData = (isFunction(stateValues) && typeof stateValues === 'function') ? stateValues(faker) : stateValues;
-      const stateGenerator = (count: number | IDataObject | FactoryGenerator, overrides?: IDataObject | FactoryGenerator) => {
+      const stateData = isFunction(stateValues) && typeof stateValues === 'function' ? stateValues(faker) : stateValues;
+      const stateGenerator = (
+        count: number | IDataObject | FactoryGenerator,
+        overrides?: IDataObject | FactoryGenerator,
+      ) => {
         let mock: T | T[];
         if (count === undefined) {
           mock = generate(stateData) as T;
