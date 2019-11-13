@@ -1,8 +1,27 @@
 // tslint:disable
-import { factory } from '../../src/index';
+import { factory, StateGenerator } from '../../src/index';
 
-export const UserFactory = factory(fake => ({
+export interface User {
+  id: string;
+  name: string;
+  email: string;
+}
+
+export interface UserStates {
+  female: StateGenerator<User>;
+  male: StateGenerator<User>;
+}
+
+export const UserFactory = factory<User, UserStates>(fake => ({
   id: fake.random.uuid(),
   name: fake.name.findName(),
   email: fake.internet.email(),
 }));
+
+UserFactory.state('female', {
+  name: 'Joan Doe',
+});
+
+UserFactory.state('male', {
+  name: 'John Doe',
+});

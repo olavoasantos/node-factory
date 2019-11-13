@@ -1,0 +1,36 @@
+---
+name: configDatabase
+route: /api/config-database
+menu: API
+---
+
+import { Link } from 'docz';
+import FormatJson from '../components/FormatJson';
+import { UserFactory } from '../components/Factory';
+
+# `Factory.configDatabase(databaseConfig: DatabaseConfig<T>)`
+
+### args
+
+- `databaseConfig `<span>`(DatabaseConfig<T>)`</span>
+
+### return
+
+- `void`
+
+## Description
+
+TBD
+
+## Example
+
+```typescript
+UserFactory.databaseConfig({
+  async insert(data: User) {
+    await database.table('users').insert(data);
+  },
+  async hydrate(data: User) {
+    return new UserModel(data);
+  },
+});
+```

@@ -120,7 +120,7 @@ const factory = <T, A = GenericExtension<T>>(generator: FactoryGenerator) => {
     }
   };
 
-  const configDatabase = (options: DatabaseConfig<T>) => {
+  const configDatabase = (options: Partial<DatabaseConfig<T>>) => {
     Object.keys(database).forEach((key: string) => {
       if ((options as any)[key]) {
         (database as any)[key] = (options as any)[key];

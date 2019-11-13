@@ -14,25 +14,87 @@ import { Link } from 'docz';
 
 ### return
 
-- `Factory object `<Link to="/api/types#ifactoryobject">`(IFactoryObject)`</Link>: The factory object contains four methods: <Link to="/api/create">`create`</Link>, <Link to="/api/only">`only`</Link>, <Link to="/api/make">`make`</Link> and <Link to="/api/seed">`seed`</Link>
+- `Factory object `<Link to="/api/types#ifactoryobject">`(IFactoryObject)`</Link>: The factory object contains four methods: <Link to="/api/create">`create`</Link>, <Link to="/api/only">`only`</Link>, <Link to="/api/make">`make`</Link>, <Link to="/api/seed">`seed`</Link>, <Link to="/api/state">`state`</Link> and <Link to="/api/configDatabase">`configDatabase`</Link>
 
 <hr style={{ marginTop: '2rem', marginBottom: '2rem', opacity: '0.2' }} />
 
 ## Description
 
-You should create a factory object for the data you want to generate. To do that, you need to specify the type of data. To do this, the
+You should create a factory object for the data you want to generate, you need to specify the type of data. To do this, the
 factory class makes use of the [Faker.js](https://github.com/marak/Faker.js/) package which provides an easy way to generate random data.
 
 ## Usage
 
-```js
+### No types
+
+If no types are defined, the return types of `make` and `create` will be set to `any`.
+
+```ts
 import { factory } from 'node-factory';
 
-const UserFactory = factory(fake => ({
+// UserFactory.make() => any
+const UserFactory = factory((fake: Faker) => ({
   id: fake.random.uuid(),
   name: fake.name.findName(),
   email: fake.internet.email(),
 }));
 
 export default UserFactory;
+```
+
+### Typing
+
+If a type is defined, the return types of `make` and `create` will be set to the given type.
+
+```js
+import { factory } from 'node-factory';
+
+export interface User {
+  id: string;
+  name: string;
+  email: string;
+}
+
+// UserFactory.make() => User
+export const UserFactory = factory<User>(fake => ({
+  id: fake.random.uuid(),
+  name: fake.name.findName(),
+  email: fake.internet.email(),
+}));
+```
+
+### With states
+
+If you need to create states, you can declare the state's types and pass it to the factory function:
+
+```js
+import { factory } from 'node-factory';
+
+export interface User {
+  id: string;
+  name: string;
+  email: string;
+}
+
+export interface UserStates {
+  female: StateGenerator<User>;
+  male: StateGenerator<User>;
+}
+
+// UserFactory.make() => User
+export const UserFactory = factory<User, UserStates>(fake => ({
+  id: fake.random.uuid(),
+  name: fake.name.findName(),
+  email: fake.internet.email(),
+}));
+
+// UserFactory.female() => User
+UserFactory.state('female', {
+  name: 'Joan Doe',
+});
+
+// UserFactory.male() => User
+UserFactory.state('male', {
+  name: 'John Doe',
+});
 ```

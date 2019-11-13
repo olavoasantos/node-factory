@@ -4,14 +4,17 @@ export default {
   typescript: true,
   menu: [
     'Main',
-    { name: 'API', menu: ['factory', 'create', 'only', 'make', 'seed', 'types'] },
-    { name: 'Examples'},
-    'Update from v0.1.2',
-    { name: 'GitHub', menu: [
-      { name: 'Repo', href: 'https://github.com/olavoasantos/node-factory/' },
-      { name: 'Issues', href: 'https://github.com/olavoasantos/node-factory/issues' },
-      { name: 'Pull requests', href: 'https://github.com/olavoasantos/node-factory/pulls' },
-    ] },
+    { name: 'API', menu: ['factory', 'create', 'only', 'make', 'state', 'seed', 'configDatabase', 'types'] },
+    { name: 'Examples' },
+    'Update from v0.2.6',
+    {
+      name: 'GitHub',
+      menu: [
+        { name: 'Repo', href: 'https://github.com/olavoasantos/node-factory/' },
+        { name: 'Issues', href: 'https://github.com/olavoasantos/node-factory/issues' },
+        { name: 'Pull requests', href: 'https://github.com/olavoasantos/node-factory/pulls' },
+      ],
+    },
   ],
   themeConfig: {
     styles: {

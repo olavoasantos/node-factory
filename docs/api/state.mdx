@@ -1,0 +1,69 @@
+---
+name: state
+route: /api/state
+menu: API
+---
+
+import { Link } from 'docz';
+import FormatJson from '../components/FormatJson';
+import { UserFactory } from '../components/Factory';
+
+# `Factory.state(name: string, stateValues: IDataObject)`
+
+### args
+
+- `name `<span>`(String)`</span>
+- `stateValues `<span>`(IDataObject)`</span>
+
+### return
+
+- `void`
+
+## Description
+
+TBD
+
+## Example
+
+First you should define your states:
+
+```js
+export interface User {
+  id: string;
+  name: string;
+  email: string;
+}
+
+export interface UserStates {
+  female: StateGenerator<User>;
+  male: StateGenerator<User>;
+}
+
+export const UserFactory = factory<User, UserStates>(fake => ({
+  id: fake.random.uuid(),
+  name: fake.name.findName(),
+  email: fake.internet.email(),
+}));
+
+UserFactory.state('female', {
+  name: 'Joan Doe',
+});
+
+UserFactory.state('male', {
+  name: 'John Doe',
+});
+```
+
+After declaring the states, you can use them as you would use the `make` method:
+
+```typescript
+UserFactory.female()
+```
+
+<FormatJson parse={() => UserFactory.female()} />
+
+```typescript
+UserFactory.male()
+```
+
+<FormatJson parse={() => UserFactory.male()} />

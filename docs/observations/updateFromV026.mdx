@@ -1,0 +1,16 @@
+---
+name: Update from v0.2.6
+route: /obs/update-0-2-6
+---
+
+## Updating from v0.2.6
+
+Version 0.3.0 has breaking changes from v0.2.6. The API from `make` and `create` has been modified. They essencially have the
+same API but `create` returns a promise while `make` simply returns the data. As a general rule of thumb, is you're
+not testing a database, use `make`. Please refer to the API section for more details on how to use them.
+
+## Updating from v0.1.2
+
+Version 0.2.0 is a complete rewrite of the package which, not only implemented TypeScript and tests, but introduces
+a whole new API which simplifies the package usage. This generated braking changes from the previous
+versions and will require refactoring. Sorry for the inconvenience.

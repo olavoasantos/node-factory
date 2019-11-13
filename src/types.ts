@@ -32,8 +32,8 @@ export interface GenericExtension<T> {
 export type FactoryGenerator = (fake: any) => IDataObject;
 
 export interface DatabaseConfig<T> {
-  insert(data: T): Promise<any>;
-  hydrate(data: T): Promise<any>;
+  insert: (data: T) => Promise<any>;
+  hydrate: (data: T) => Promise<any>;
 }
 
 export interface EnumGet<T> {

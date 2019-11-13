@@ -4,6 +4,6 @@ const InputEvent = factory(fake => ({
   target: {
     value: fake.random.uuid(),
   }
-})).create;
+})).make;
 
 export default InputEvent;

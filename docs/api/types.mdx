@@ -9,7 +9,7 @@ menu: API
 ## `FactoryGenerator`
 
 ```ts
-type FactoryGenerator = (fake: Faker.FakerStatic) => IDataObject;
+type FactoryGenerator = <T>(fake: Faker.FakerStatic) => IDataObject<T>;
 ```
 
 > For more information on Faker.FakerStatic type refer to https://www.npmjs.com/package/@types/faker
@@ -17,18 +17,94 @@ type FactoryGenerator = (fake: Faker.FakerStatic) => IDataObject;
 ## `IFactoryObject`
 
 ```ts
-export interface IFactoryObject {
-  create: (overrides?: IDataObject) => IDataObject;
-  only: (keys: string | string[], overrides?: IDataObject) => IDataObject;
-  make: (count?: number | IDataObject, overrides?: IDataObject) => IDataObject[];
-  seed: (value: number) => IFactoryObject;
+interface IFactoryObject<T = any> {
+  make: StateGenerator<T>;
+  create: PromiseGenerator<T>;
+  only: (keys: keyof T | Array<keyof T>, overrides?: IDataObject) => Partial<T>;
+  seed: (value: number) => IFactoryObject<T>;
+  state: (name: string, stateValues: IDataObject) => void;
+  configDatabase(options: DatabaseConfig<T>): void;
 }
+```
+
+## `StateGenerator`
+
+```ts
+interface StateGenerator<T> {
+  (): T;
+  (overrides: IDataObject): T;
+  (count: number): T[];
+  (count: number, overrides: IDataObject): T[];
+}
+```
+
+## `PromiseGenerator`
+
+```ts
+interface PromiseGenerator<T> {
+  (): Promise<T>;
+  (overrides: IDataObject): Promise<T>;
+  (count: number): Promise<T[]>;
+  (count: number, overrides: IDataObject): Promise<T[]>;
+}
+```
+
+## `GenericExtension`
+
+```ts
+interface GenericExtension<T> {
+  [state: string]: StateGenerator<T>;
+}
+```
+
+## `FactoryGenerator`
+
+```ts
+type FactoryGenerator = (fake: any) => IDataObject;
 ```
 
 ## `IDataObject`
 
 ```ts
-export interface IDataObject {
+interface IDataObject {
   [key: string]: any;
 }
 ```
+
+## `DatabaseConfig`
+
+```typescript
+interface DatabaseConfig<T> {
+  insert?: (data: T) => Promise<any>;
+  hydrate?: (data: T) => Promise<any>;
+}
+```
+
+## `EnumGet`
+
+```typescript
+interface EnumGet<T> {
+  (): T;
+  (count: number): T[];
+}
+```
+
+## `EnumUnique`
+
+```typescript
+interface EnumUnique<T> {
+  (): T;
+  (count: number): T[];
+}
+```
+
+## `EnumFactory`
+
+```typescript
+interface EnumFactory<T> {
+  get: EnumGet<T>;
+  unique: EnumUnique<T>;
+  seed(value?: number): EnumFactory<T>;
+}
+```
+
