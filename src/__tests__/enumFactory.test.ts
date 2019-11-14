@@ -60,4 +60,18 @@ describe('factory tests', () => {
 
     expect(data1).toMatchObject(data2);
   });
+
+  it('should accept a callback', () => {
+    const CallbackFactory = enumFactory<string>(
+      (fake: Faker.FakerStatic) => fake.name.firstName()
+    );
+
+    const data = CallbackFactory.get(3);
+
+    expect(Array.isArray(data)).toBeTruthy();
+    expect(data.length).toBe(3);
+    data.forEach((item: any) => {
+      expect(typeof item).toBe('string');
+    })
+  });
 });
