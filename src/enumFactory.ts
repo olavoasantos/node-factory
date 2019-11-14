@@ -14,19 +14,21 @@ const enumFactory = <T = any>(array: any[] | ((fake: any) => any)) => {
   const get = (n?: number) => {
     let mock: any | any[];
     if (n === undefined) {
-      mock = faker.helpers
-        .shuffle<T>([...generator()])
-        .pop();
+      const data = generator();
+      const rand = faker.random.number(data.length - 1);
+      mock = faker.helpers.shuffle<T>([...data])[rand];
     } else if (n < 1) {
+      const data = generator();
+      const rand = faker.random.number(data.length - 1);
       mock = faker.helpers
-        .shuffle<T>([...generator()])
-        .slice(0, 1);
+        .shuffle<T>([...data])
+        .slice(rand, rand + 1);
     } else {
-      mock = Array.from({ length: n }).map(() =>
-        faker.helpers
-          .shuffle<T>([...generator(n)])
-          .pop(),
-      );
+      mock = Array.from({ length: n }).map(() => {
+        const data = generator(n);
+        const rand = faker.random.number(data.length - 1);
+        return faker.helpers.shuffle<T>([...data])[rand];
+      });
     }
 
     faker.seed(faker.random.number());
@@ -37,18 +39,20 @@ const enumFactory = <T = any>(array: any[] | ((fake: any) => any)) => {
   const unique = (n?: number) => {
     let mock: any | any[];
     if (n === undefined) {
-      mock = faker.helpers
-        .shuffle<T>([...generator()])
-        .pop();
+      const data = generator();
+      const rand = faker.random.number(data.length - 1);
+      mock = faker.helpers.shuffle<T>([...data])[rand];
     } else if (n < 1) {
+      const data = generator();
+      const rand = faker.random.number(data.length - 1);
       mock = faker.helpers
-        .shuffle<T>([...generator()])
-        .slice(0, 1);
+        .shuffle<T>([...data])
+        .slice(rand, rand + 1);
     } else {
       const N = !Array.isArray(array) || n < array.length ? n : array.length;
-      const partial = faker.helpers.shuffle<T>([...generator(N)]);
+      const partial = [...generator(N)];
       mock = Array.from({ length: N }).map(() => {
-        return partial.pop();
+        return faker.helpers.shuffle<T>(partial).pop();
       });
     }
 
