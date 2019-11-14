@@ -62,9 +62,7 @@ describe('factory tests', () => {
   });
 
   it('should accept a callback', () => {
-    const CallbackFactory = enumFactory<string>(
-      (fake: Faker.FakerStatic) => fake.name.firstName()
-    );
+    const CallbackFactory = enumFactory<string>((fake: Faker.FakerStatic) => fake.name.firstName());
 
     const data = CallbackFactory.get(3);
 
@@ -72,6 +70,6 @@ describe('factory tests', () => {
     expect(data.length).toBe(3);
     data.forEach((item: any) => {
       expect(typeof item).toBe('string');
-    })
+    });
   });
 });
