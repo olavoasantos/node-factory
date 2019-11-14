@@ -1,20 +1,5 @@
 // tslint:disable: unified-signatures
-export interface IDataObject {
-  [key: string]: any;
-}
-
-export interface StateGenerator<T> {
-  (): T;
-  (overrides: IDataObject | FactoryGenerator): T;
-  (count: number): T[];
-  (count: number, overrides: IDataObject | FactoryGenerator): T[];
-}
-export interface PromiseGenerator<T> {
-  (): Promise<T>;
-  (overrides: IDataObject | FactoryGenerator): Promise<T>;
-  (count: number): Promise<T[]>;
-  (count: number, overrides: IDataObject | FactoryGenerator): Promise<T[]>;
-}
+export type FactoryGenerator = (fake: any) => IDataObject;
 
 export interface IFactoryObject<T = any> {
   make: StateGenerator<T>;
@@ -25,11 +10,27 @@ export interface IFactoryObject<T = any> {
   configDatabase(options: DatabaseConfig<T>): void;
 }
 
+export interface StateGenerator<T> {
+  (): T;
+  (overrides: IDataObject | FactoryGenerator): T;
+  (count: number): T[];
+  (count: number, overrides: IDataObject | FactoryGenerator): T[];
+}
+
+export interface PromiseGenerator<T> {
+  (): Promise<T>;
+  (overrides: IDataObject | FactoryGenerator): Promise<T>;
+  (count: number): Promise<T[]>;
+  (count: number, overrides: IDataObject | FactoryGenerator): Promise<T[]>;
+}
+
+export interface IDataObject {
+  [key: string]: any;
+}
+
 export interface GenericExtension<T> {
   [state: string]: StateGenerator<T>;
 }
-
-export type FactoryGenerator = (fake: any) => IDataObject;
 
 export interface DatabaseConfig<T> {
   insert: (data: T) => Promise<any>;
