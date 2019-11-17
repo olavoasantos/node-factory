@@ -1,5 +1,5 @@
-import { enumFactory } from '../index';
 import factory from '../factory';
+import { enumFactory } from '../index';
 
 describe('enumFactory tests', () => {
   type FactoryType = string;

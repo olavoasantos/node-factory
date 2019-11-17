@@ -7,7 +7,8 @@ export interface IFactoryObject<T = any> {
   only: (keys: keyof T | Array<keyof T>, overrides?: IDataObject | FactoryGenerator) => Partial<T>;
   seed: (value: number) => IFactoryObject<T>;
   state: (name: string, stateValues: IDataObject | FactoryGenerator) => void;
-  configDatabase(options: DatabaseConfig<T>): void;
+  onInsert(func: DatabaseConfig<T>['insert']): IFactoryObject<T>;
+  onHydrate(func: DatabaseConfig<T>['hydrate']): IFactoryObject<T>;
 }
 
 export interface StateGenerator<T> {
@@ -34,7 +35,7 @@ export interface GenericExtension<T> {
 
 export interface DatabaseConfig<T> {
   insert: (data: T) => Promise<any>;
-  hydrate: (data: T) => Promise<any>;
+  hydrate: (data: T) => any;
 }
 
 export interface EnumGet<T> {

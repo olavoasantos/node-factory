@@ -1,4 +1,5 @@
 import faker from 'faker';
+import { DEFAULT_DATABASE_CONFIG } from './constants';
 import { isFunction, merge, resolveArgs } from './helpers';
 import {
   DatabaseConfig,
@@ -10,14 +11,7 @@ import {
 } from './types';
 
 const factory = <T, A = GenericExtension<T>>(generator: FactoryGenerator) => {
-  const database: DatabaseConfig<T> = {
-    async insert(data: T) {
-      return data;
-    },
-    async hydrate(data: T) {
-      return data;
-    },
-  };
+  const database: DatabaseConfig<T> = DEFAULT_DATABASE_CONFIG;
 
   const generate = (overrides: IDataObject | any[] | null = null) => {
     const data = generator(faker);
@@ -46,7 +40,13 @@ const factory = <T, A = GenericExtension<T>>(generator: FactoryGenerator) => {
 
     faker.seed(faker.random.number());
 
-    return mock;
+    if (Array.isArray(mock)) {
+      return mock.map((model: T) => {
+        return database.hydrate(model);
+      });
+    }
+
+    return database.hydrate(mock);
   };
 
   const create = async (
@@ -119,22 +119,32 @@ const factory = <T, A = GenericExtension<T>>(generator: FactoryGenerator) => {
 
         faker.seed(faker.random.number());
 
-        return mock;
+        if (Array.isArray(mock)) {
+          return mock.map((model: T) => {
+            return database.hydrate(model);
+          });
+        }
+
+        return database.hydrate(mock);
       };
 
       (factoryObject as any)[name as keyof A] = stateGenerator as StateGenerator<T>;
     }
   };
 
-  const configDatabase = (options: Partial<DatabaseConfig<T>>) => {
-    Object.keys(database).forEach((key: string) => {
-      if ((options as any)[key]) {
-        (database as any)[key] = (options as any)[key];
-      }
-    });
+  const onInsert = (func: (data: T) => Promise<any>) => {
+    database.insert = func;
+
+    return factoryObject;
   };
 
-  const factoryObject = { create, make, only, seed, state, configDatabase };
+  const onHydrate = (func: (data: T) => Promise<any>) => {
+    database.hydrate = func;
+
+    return factoryObject;
+  };
+
+  const factoryObject = { create, make, only, seed, state, onInsert, onHydrate };
 
   return factoryObject as IFactoryObject<T> & A;
 };
