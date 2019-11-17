@@ -1,0 +1,48 @@
+---
+name: unique
+route: /enum-factory-api/unique
+menu: enumFactory API
+---
+
+import { Link } from 'docz';
+import FormatJson from '../components/FormatJson';
+import { UserFactory } from '../components/Factory';
+
+# `EnumFactory<T>.unique`
+
+## Description
+
+TBD
+
+## Type
+
+```typescript
+interface EnumUnique<T> {
+  (): T;
+  (count: number): T[];
+}
+```
+
+> Where `T` is the type passed to the factory function.
+
+### args
+
+- `count `<span>`(Number [optional])`</span>: This argument defines how many objects should be generated `(default: 1)`
+
+### return
+
+- `data`
+
+## Examples
+
+### `(): T`
+
+```typescript
+// TBD
+```
+
+### `(count: number): T[]`
+
+```typescript
+// TBD
+```

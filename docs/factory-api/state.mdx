@@ -1,27 +1,33 @@
 ---
 name: state
-route: /api/state
-menu: API
+route: /factory-api/state
+menu: factory API
 ---
 
 import { Link } from 'docz';
 import FormatJson from '../components/FormatJson';
 import { UserFactory } from '../components/Factory';
 
-# `Factory.state(name: string, stateValues: IDataObject)`
-
-### args
-
-- `name `<span>`(String)`</span>
-- `stateValues `<span>`(IDataObject)`</span>
-
-### return
-
-- `void`
+# `Factory<T, S>.state`
 
 ## Description
 
 TBD
+
+## Type
+
+```typescript
+type StateMethod<T> = (name: string, stateValues: DataObject | FactoryGenerator) => void;
+```
+
+### args
+
+- `name `<span>`(String)`</span>
+- `stateValues `<span>`(DataObject)`</span>
+
+### return
+
+- `void`
 
 ## Example
 

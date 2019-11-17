@@ -1,0 +1,46 @@
+---
+name: enumFactory
+route: /enum-factory-api/enumFactory
+menu: enumFactory API
+---
+
+import { Link } from 'docz';
+
+# `enumFactory<T>`
+
+## Description
+
+You should create a enumFactory object for the data you want to generate, you need to specify the type of data. To do this, the
+enumFactory class makes use of the [Faker.js](https://github.com/marak/Faker.js/) package which provides an easy way to generate random data.
+
+## Type
+
+```typescript
+type enumFactory = (generator: T[] | (fake: Faker) => T) => EnumFactory<T>;
+```
+
+### args
+
+- `generator (T[] | (fake: Faker) => T)`: Enum array or generator functions which describes your generated elements. Generator function receives a `faker` instance as an argument.
+
+### return
+
+- `Enum factory object `<Link to="/types#enumfactory">`(EnumFactory<T>)`</Link>: The enumFactory object contains three methods: <Link to="/enum-factory-api/get">`get`</Link>, <Link to="/enum-factory-api/unique">`unique`</Link> and <Link to="/enum-factory-api/seed">`seed`</Link>.
+
+<hr style={{ marginTop: '2rem', marginBottom: '2rem', opacity: '0.2' }} />
+
+## Usage
+
+```typescript
+import { enumFactory } from 'node-factory';
+
+export type STATUS = ['PENDING', 'CREATED', 'DELETED', 'CANCELLED', 'COMPLETE']
+
+export const StateFactory = enumFactory<string>(STATUS);
+```
+
+```typescript
+import { enumFactory } from 'node-factory';
+
+export const NameFactory = enumFactory<string>((fake: Faker.FakerStatic) => faker.name.firstName());
+```

@@ -1,0 +1,42 @@
+---
+name: onInsert
+route: /factory-api/on-insert
+menu: factory API
+---
+
+import { Link } from 'docz';
+import FormatJson from '../components/FormatJson';
+import { UserFactory } from '../components/Factory';
+
+# `Factory<T, S>.onInsert`
+
+## Description
+
+If you're testing database integrations and you wish to seed it with the data, you can use the
+`useInsert` method to define a startegy to persist the generated data into your database. This
+function will be called by the `create` method before running the `onHydrate` function.
+This function receives the generated data and should return a `Promise`.
+
+## Type
+
+```typescript
+type OnInsertMethod<T> = (data: T) => Promise<any>;
+```
+
+### args
+
+- `function `<span>`((data: T) => Promise<any>)`</span>
+
+### return
+
+- `Factory<T, S>`
+
+## Example
+
+```typescript
+import database from './database';
+
+UserFactory.onInsert(async (data: User) {
+  await database('user').insert(data);
+});
+```

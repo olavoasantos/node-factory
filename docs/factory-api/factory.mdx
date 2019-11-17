@@ -1,27 +1,33 @@
 ---
 name: factory
-route: /api/factory
-menu: API
+route: /factory-api/factory
+menu: factory API
 ---
 
 import { Link } from 'docz';
 
-# `factory(generator)`
-
-### args
-
-- `generator `<Link to="/api/types#factorygenerator">`(FactoryGenerator)`</Link>: Generator function which describes your data object. This function receives a `faker` instance as an argument
-
-### return
-
-- `Factory object `<Link to="/api/types#ifactoryobject">`(IFactoryObject)`</Link>: The factory object contains four methods: <Link to="/api/create">`create`</Link>, <Link to="/api/only">`only`</Link>, <Link to="/api/make">`make`</Link>, <Link to="/api/seed">`seed`</Link>, <Link to="/api/state">`state`</Link> and <Link to="/api/configDatabase">`configDatabase`</Link>
-
-<hr style={{ marginTop: '2rem', marginBottom: '2rem', opacity: '0.2' }} />
+# `factory<T, S>`
 
 ## Description
 
 You should create a factory object for the data you want to generate, you need to specify the type of data. To do this, the
 factory class makes use of the [Faker.js](https://github.com/marak/Faker.js/) package which provides an easy way to generate random data.
+
+## Type
+
+```typescript
+type factory = (generator: (fake: Faker) => T) => Factory<T, S>;
+```
+
+### args
+
+- `generator `<Link to="/types#factorygenerator">`(FactoryGenerator)`</Link>: Generator function which describes your data object. This function receives a `faker` instance as an argument
+
+### return
+
+- `Factory object `<Link to="/types#factory">`(Factory<T, S>)`</Link>: The factory object contains seven methods: <Link to="/api/create">`create`</Link>, <Link to="/api/only">`only`</Link>, <Link to="/api/make">`make`</Link>, <Link to="/api/seed">`seed`</Link>, <Link to="/api/state">`state`</Link>, <Link to="/api/on-insert">`onInsert`</Link> and <Link to="/api/on-hydrate">`onHydrate`</Link>
+
+<hr style={{ marginTop: '2rem', marginBottom: '2rem', opacity: '0.2' }} />
 
 ## Usage
 
@@ -29,7 +35,7 @@ factory class makes use of the [Faker.js](https://github.com/marak/Faker.js/) pa
 
 If no types are defined, the return types of `make` and `create` will be set to `any`.
 
-```ts
+```typescript
 import { factory } from 'node-factory';
 
 // UserFactory.make() => any

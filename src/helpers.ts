@@ -1,5 +1,5 @@
 import faker from 'faker';
-import { IDataObject } from './types';
+import { DataObject } from './types';
 
 export const isObject = (variable: any) => {
   return variable && typeof variable === 'object' && variable.constructor === Object;
@@ -9,7 +9,7 @@ export const isFunction = (variable: any) => {
   return variable && {}.toString.call(variable) === '[object Function]';
 };
 
-export const merge = (data: IDataObject, overrides: IDataObject): IDataObject => {
+export const merge = (data: DataObject, overrides: DataObject): DataObject => {
   if (Array.isArray(data) && Array.isArray(overrides)) {
     return data.map((value: any, key: number) => {
       return key < overrides.length ? overrides[key] : value;
@@ -31,7 +31,7 @@ export const merge = (data: IDataObject, overrides: IDataObject): IDataObject =>
   }, {});
 };
 
-export const resolveArgs = (...args: any[]): IDataObject =>
+export const resolveArgs = (...args: any[]): DataObject =>
   args.reduce(
     (resolved, arg) => {
       if (typeof arg === 'number') {

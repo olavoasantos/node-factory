@@ -1,0 +1,48 @@
+---
+name: get
+route: /enum-factory-api/get
+menu: enumFactory API
+---
+
+import { Link } from 'docz';
+import FormatJson from '../components/FormatJson';
+import { UserFactory } from '../components/Factory';
+
+# `EnumFactory<T>.get`
+
+## Description
+
+TBD
+
+## Type
+
+```typescript
+interface EnumGet<T> {
+  (): T;
+  (count: number): T[];
+}
+```
+
+> Where `T` is the type passed to the factory function.
+
+### args
+
+- `count `<span>`(Number [optional])`</span>: This argument defines how many objects should be generated `(default: 1)`
+
+### return
+
+- `data`
+
+## Examples
+
+### `(): T`
+
+```typescript
+// TBD
+```
+
+### `(count: number): T[]`
+
+```typescript
+// TBD
+```

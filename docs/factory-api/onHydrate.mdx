@@ -1,0 +1,41 @@
+---
+name: onHydrate
+route: /factory-api/on-hydrate
+menu: factory API
+---
+
+import { Link } from 'docz';
+import FormatJson from '../components/FormatJson';
+import { UserFactory } from '../components/Factory';
+
+# `Factory<T, S>.onHydrate`
+
+## Description
+
+If you are using some sort of ORM/model system and you wish that the generated data is return as
+an instance of your model, you can define a strategy to hydrate the model class with the newly
+generated data. Using the `onHydrate` method, you can pass a function that receives the generated
+data and should return your model. This function is called by the `create`, `make` and `state`
+methods before returning the data.
+
+## Type
+
+```typescript
+type OnHydrateMethod<T> = (func: (data: T) => any): Factory<T, S>;
+```
+
+### args
+
+- `function `<span>`(data: T) => any`</span>
+
+### return
+
+- `Factory<T, S>`
+
+## Example
+
+```typescript
+UserFactory.onHydrate((data: User) {
+  return new UserModel(data);
+});
+```

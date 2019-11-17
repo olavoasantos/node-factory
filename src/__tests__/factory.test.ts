@@ -1,4 +1,4 @@
-import { factory } from '../index';
+import { factory } from '..';
 
 describe('factory tests', () => {
   interface FactoryType {

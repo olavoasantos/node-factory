@@ -1,4 +1,4 @@
-import { factory } from '../index';
+import { factory } from '..';
 
 describe('create tests', () => {
   interface FactoryType {
@@ -6,13 +6,13 @@ describe('create tests', () => {
     name: string;
   }
 
-  const Factory = factory<FactoryType>(fake => ({
+  const User = factory<FactoryType>(fake => ({
     email: fake.internet.email(),
     name: fake.name.firstName(),
   }));
 
   it('should create a single object', async () => {
-    const data = await Factory.create();
+    const data = await User.create();
 
     expect(typeof data).toBe('object');
     expect(data).toHaveProperty('name');
@@ -22,7 +22,7 @@ describe('create tests', () => {
   });
 
   it('should create a single object with overwritten data', async () => {
-    const data = await Factory.create({ name: 'JOHN DOE' });
+    const data = await User.create({ name: 'JOHN DOE' });
 
     expect(typeof data).toBe('object');
     expect(data).toHaveProperty('name');
@@ -41,7 +41,7 @@ describe('create tests', () => {
   });
 
   it('should make a single object', async () => {
-    const data = await Factory.create(1);
+    const data = await User.create(1);
 
     expect(Array.isArray(data)).toBeTruthy();
     expect(data.length).toBe(1);
@@ -53,7 +53,7 @@ describe('create tests', () => {
   });
 
   it('should make a single object with overwritten data', async () => {
-    const data = await Factory.create(1, { name: 'JOHN DOE' });
+    const data = await User.create(1, { name: 'JOHN DOE' });
 
     expect(Array.isArray(data)).toBeTruthy();
     expect(data.length).toBe(1);
@@ -66,14 +66,14 @@ describe('create tests', () => {
   });
 
   it('should make a given number of objects', async () => {
-    const data = await Factory.create(3);
+    const data = await User.create(3);
 
     expect(Array.isArray(data)).toBeTruthy();
     expect(data.length).toBe(3);
   });
 
   it('should make a given number of objects with overwritten data', async () => {
-    const data = await Factory.create(3, { name: 'JOHN DOE' });
+    const data = await User.create(3, { name: 'JOHN DOE' });
 
     expect(Array.isArray(data)).toBeTruthy();
     expect(data.length).toBe(3);
@@ -83,21 +83,21 @@ describe('create tests', () => {
   });
 
   it('should make a single object if count is 0', async () => {
-    const data = await Factory.create(0);
+    const data = await User.create(0);
 
     expect(Array.isArray(data)).toBeTruthy();
     expect(data.length).toBe(1);
   });
 
   it('should make a single object if count is negative', async () => {
-    const data = await Factory.create(-3);
+    const data = await User.create(-3);
 
     expect(Array.isArray(data)).toBeTruthy();
     expect(data.length).toBe(1);
   });
 
   it('should accept overrides as a function', async () => {
-    const data = await Factory.create(() => ({
+    const data = await User.create(() => ({
       name: 'OVERWRITTEN',
     }));
 
@@ -105,7 +105,7 @@ describe('create tests', () => {
   });
 
   it('should accept overrides as a function as second argument', async () => {
-    const [data] = await Factory.create(1, () => ({
+    const [data] = await User.create(1, () => ({
       name: 'OVERWRITTEN',
     }));
 

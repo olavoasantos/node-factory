@@ -1,18 +1,18 @@
-import { factory } from '../index';
+import { factory } from '..';
 
 describe('make tests', () => {
-  interface FactoryType {
+  interface UserType {
     email: string;
     name: string;
   }
 
-  const Factory = factory<FactoryType>(fake => ({
+  const User = factory<UserType>(fake => ({
     email: fake.internet.email(),
     name: fake.name.firstName(),
   }));
 
   it('should create a single object', () => {
-    const data = Factory.make();
+    const data = User.make();
 
     expect(typeof data).toBe('object');
     expect(data).toHaveProperty('name');
@@ -22,7 +22,7 @@ describe('make tests', () => {
   });
 
   it('should create a single object with overwritten data', () => {
-    const data = Factory.make({ name: 'JOHN DOE' });
+    const data = User.make({ name: 'JOHN DOE' });
 
     expect(typeof data).toBe('object');
     expect(data).toHaveProperty('name');
@@ -33,15 +33,15 @@ describe('make tests', () => {
   });
 
   it('should create an array factory', () => {
-    const arrayFactory = factory<string[]>(fake => [fake.name.findName(), fake.name.findName(), fake.name.findName()]);
+    const arrayUser = factory<string[]>(fake => [fake.name.findName(), fake.name.findName(), fake.name.findName()]);
 
-    const created = arrayFactory.make();
+    const created = arrayUser.make();
 
     expect(Array.isArray(created)).toBeTruthy();
   });
 
   it('should make a single object', () => {
-    const data = Factory.make(1);
+    const data = User.make(1);
 
     expect(Array.isArray(data)).toBeTruthy();
     expect(data.length).toBe(1);
@@ -53,7 +53,7 @@ describe('make tests', () => {
   });
 
   it('should make a single object with overwritten data', () => {
-    const data = Factory.make(1, { name: 'JOHN DOE' });
+    const data = User.make(1, { name: 'JOHN DOE' });
 
     expect(Array.isArray(data)).toBeTruthy();
     expect(data.length).toBe(1);
@@ -66,14 +66,14 @@ describe('make tests', () => {
   });
 
   it('should make a given number of objects', () => {
-    const data = Factory.make(3);
+    const data = User.make(3);
 
     expect(Array.isArray(data)).toBeTruthy();
     expect(data.length).toBe(3);
   });
 
   it('should make a given number of objects with overwritten data', () => {
-    const data = Factory.make(3, { name: 'JOHN DOE' });
+    const data = User.make(3, { name: 'JOHN DOE' });
 
     expect(Array.isArray(data)).toBeTruthy();
     expect(data.length).toBe(3);
@@ -83,21 +83,21 @@ describe('make tests', () => {
   });
 
   it('should make a single object if count is 0', () => {
-    const data = Factory.make(0);
+    const data = User.make(0);
 
     expect(Array.isArray(data)).toBeTruthy();
     expect(data.length).toBe(1);
   });
 
   it('should make a single object if count is negative', () => {
-    const data = Factory.make(-3);
+    const data = User.make(-3);
 
     expect(Array.isArray(data)).toBeTruthy();
     expect(data.length).toBe(1);
   });
 
   it('should accept overrides as a function', () => {
-    const data = Factory.make(() => ({
+    const data = User.make(() => ({
       name: 'OVERWRITTEN',
     }));
 
@@ -105,7 +105,7 @@ describe('make tests', () => {
   });
 
   it('should accept overrides as a function as second argument', () => {
-    const [data] = Factory.make(1, () => ({
+    const [data] = User.make(1, () => ({
       name: 'OVERWRITTEN',
     }));
 

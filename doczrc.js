@@ -4,7 +4,28 @@ export default {
   typescript: true,
   menu: [
     'Main',
-    { name: 'API', menu: ['factory', 'create', 'only', 'make', 'state', 'seed', 'configDatabase', 'types'] },
+    {
+      name: 'factory API',
+      menu: [
+        'factory',
+        'create',
+        'only',
+        'make',
+        'state',
+        'seed',
+        'onInsert',
+        'onHydrate',
+      ]
+    },
+    {
+      name: 'enumFactory API',
+      menu: [
+        'enumFactory',
+        'get',
+        'unique',
+      ]
+    },
+    'Types',
     { name: 'Examples' },
     'Update from v0.2.6',
     {

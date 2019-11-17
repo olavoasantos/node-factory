@@ -1,12 +1,12 @@
 import { factory } from '..';
 
 describe('onInsert tests', () => {
-  interface FactoryType {
+  interface UserType {
     email: string;
     name: string;
   }
 
-  const Factory = factory<FactoryType>(fake => ({
+  const User = factory<UserType>(fake => ({
     email: fake.internet.email(),
     name: fake.name.firstName(),
   }));
@@ -14,7 +14,7 @@ describe('onInsert tests', () => {
   const onInsert = jest.fn();
 
   beforeEach(() => {
-    Factory.onInsert(onInsert);
+    User.onInsert(onInsert);
   });
 
   afterEach(() => {
@@ -22,19 +22,19 @@ describe('onInsert tests', () => {
   });
 
   it('should call the onInsert function when creating a model', async () => {
-    await Factory.create();
+    await User.create();
 
     expect(onInsert).toHaveBeenCalled();
   });
 
   it('should call the onInsert function when creating each model', async () => {
-    await Factory.create(2);
+    await User.create(2);
 
     expect(onInsert).toHaveBeenCalledTimes(2);
   });
 
   it('should NOT call the onInsert function when making a model', async () => {
-    Factory.make();
+    User.make();
 
     expect(onInsert).not.toHaveBeenCalled();
   });

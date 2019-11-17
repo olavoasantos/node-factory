@@ -1,0 +1,45 @@
+---
+name: seed
+route: /factory-api/seed
+menu: factory API
+---
+
+import { Link } from 'docz';
+import FormatJson from '../components/FormatJson';
+import { UserFactory } from '../components/Factory';
+
+# `Factory<T, S>.seed`
+
+## Description
+
+At times, you might need consistent results or, in other words, a not so random set of data. For this, you can set a `seed` which allows the random data to return the same result more than once.
+
+> This is particularly useful for snapshot testing. [Check out an example](/examples/snapshot-testing)!
+
+## Type
+
+```typescript
+type SeedMethod<T> = (value: number) => Factory<T>;
+```
+
+### args
+
+- `value `<span>`(Number)`</span>: This argument defines the seed used to generate the random data
+
+### return
+
+- `self `<Link to="/types#factory">`(Factory<T, S>)`</Link>: Returns the factory object for fluent API
+
+## Example
+
+```js
+UserFactory.seed(123).make()
+```
+
+<FormatJson parse={() => UserFactory.seed(123).make()} />
+
+```js
+UserFactory.seed(123).make()
+```
+
+<FormatJson parse={() => UserFactory.seed(123).make()} />

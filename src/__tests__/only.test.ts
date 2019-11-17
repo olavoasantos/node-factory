@@ -1,18 +1,18 @@
-import { factory } from '../index';
+import { factory } from '..';
 
 describe('only tests', () => {
-  interface FactoryType {
+  interface UserType {
     email: string;
     name: string;
   }
 
-  const Factory = factory<FactoryType>(fake => ({
+  const User = factory<UserType>(fake => ({
     email: fake.internet.email(),
     name: fake.name.firstName(),
   }));
 
   it('should return only a given field', () => {
-    const data = Factory.only('email');
+    const data = User.only('email');
 
     expect(typeof data).toBe('object');
     expect(data).not.toHaveProperty('name');
@@ -21,7 +21,7 @@ describe('only tests', () => {
   });
 
   it('should return only certain fields', () => {
-    const data = Factory.only(['email']);
+    const data = User.only(['email']);
 
     expect(typeof data).toBe('object');
     expect(data).not.toHaveProperty('name');
@@ -30,7 +30,7 @@ describe('only tests', () => {
   });
 
   it('should return only certain fields with overwritten data', () => {
-    const data = Factory.only(['email'], { email: 'john@example.com' });
+    const data = User.only(['email'], { email: 'john@example.com' });
 
     expect(typeof data).toBe('object');
     expect(data).not.toHaveProperty('name');
@@ -39,7 +39,7 @@ describe('only tests', () => {
   });
 
   it('should return only certain fields with overwritten data', () => {
-    const data = Factory.only(['name'], () => ({
+    const data = User.only(['name'], () => ({
       name: 'OVERWRITTEN',
     }));
 

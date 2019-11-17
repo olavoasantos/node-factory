@@ -1,19 +1,12 @@
 import faker from 'faker';
 import { DEFAULT_DATABASE_CONFIG } from './constants';
 import { isFunction, merge, resolveArgs } from './helpers';
-import {
-  DatabaseConfig,
-  FactoryGenerator,
-  GenericExtension,
-  IDataObject,
-  IFactoryObject,
-  StateGenerator,
-} from './types';
+import { DatabaseConfig, DataObject, Factory, FactoryGenerator, GenericExtension, MakeMethod } from './types';
 
 const factory = <T, A = GenericExtension<T>>(generator: FactoryGenerator) => {
   const database: DatabaseConfig<T> = DEFAULT_DATABASE_CONFIG;
 
-  const generate = (overrides: IDataObject | any[] | null = null) => {
+  const generate = (overrides: DataObject | any[] | null = null) => {
     const data = generator(faker);
 
     if (overrides === null) {
@@ -23,7 +16,7 @@ const factory = <T, A = GenericExtension<T>>(generator: FactoryGenerator) => {
     return merge(data, overrides) as T;
   };
 
-  const make = (count?: number | IDataObject | FactoryGenerator, overrides?: IDataObject | FactoryGenerator) => {
+  const make = (count?: number | DataObject | FactoryGenerator, overrides?: DataObject | FactoryGenerator) => {
     let mock: T | T[];
     if (count === undefined) {
       mock = generate() as T;
@@ -49,10 +42,7 @@ const factory = <T, A = GenericExtension<T>>(generator: FactoryGenerator) => {
     return database.hydrate(mock);
   };
 
-  const create = async (
-    count?: number | IDataObject | FactoryGenerator,
-    overrides?: IDataObject | FactoryGenerator,
-  ) => {
+  const create = async (count?: number | DataObject | FactoryGenerator, overrides?: DataObject | FactoryGenerator) => {
     let mock: T | T[];
     if (count != null && count < 1) {
       mock = [generate()] as T[];
@@ -82,7 +72,7 @@ const factory = <T, A = GenericExtension<T>>(generator: FactoryGenerator) => {
     return database.hydrate(mock);
   };
 
-  const only = (keys: keyof T | Array<keyof T>, overrides: IDataObject | FactoryGenerator = {}) => {
+  const only = (keys: keyof T | Array<keyof T>, overrides: DataObject | FactoryGenerator = {}) => {
     const overrideData = isFunction(overrides) && typeof overrides === 'function' ? overrides(faker) : overrides;
     const data = make(overrideData);
 
@@ -96,13 +86,10 @@ const factory = <T, A = GenericExtension<T>>(generator: FactoryGenerator) => {
     return factoryObject;
   };
 
-  const state = (name: string, stateValues: IDataObject | FactoryGenerator) => {
-    if (['create', 'make', 'only', 'seed', 'state', 'configDatabase'].indexOf(name) < 0) {
+  const state = (name: string, stateValues: DataObject | FactoryGenerator) => {
+    if (['create', 'make', 'only', 'seed', 'state', 'onInsert', 'onHydrate'].indexOf(name) < 0) {
       const stateData = isFunction(stateValues) && typeof stateValues === 'function' ? stateValues(faker) : stateValues;
-      const stateGenerator = (
-        count: number | IDataObject | FactoryGenerator,
-        overrides?: IDataObject | FactoryGenerator,
-      ) => {
+      const makeMethod = (count: number | DataObject | FactoryGenerator, overrides?: DataObject | FactoryGenerator) => {
         let mock: T | T[];
         if (count === undefined) {
           mock = generate(stateData) as T;
@@ -128,7 +115,7 @@ const factory = <T, A = GenericExtension<T>>(generator: FactoryGenerator) => {
         return database.hydrate(mock);
       };
 
-      (factoryObject as any)[name as keyof A] = stateGenerator as StateGenerator<T>;
+      (factoryObject as any)[name as keyof A] = makeMethod as MakeMethod<T>;
     }
   };
 
@@ -146,7 +133,7 @@ const factory = <T, A = GenericExtension<T>>(generator: FactoryGenerator) => {
 
   const factoryObject = { create, make, only, seed, state, onInsert, onHydrate };
 
-  return factoryObject as IFactoryObject<T> & A;
+  return factoryObject as Factory<T> & A;
 };
 
 export default factory;

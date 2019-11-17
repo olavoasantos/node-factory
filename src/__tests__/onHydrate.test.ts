@@ -1,21 +1,21 @@
 import { factory } from '..';
 
 describe('onHydrate tests', () => {
-  interface FactoryType {
+  interface UserType {
     email: string;
     name: string;
   }
 
-  class FactoryModel {
+  class UserModel {
     public name: string;
     public email: string;
-    constructor(data: FactoryType) {
+    constructor(data: UserType) {
       this.name = data.name;
       this.email = data.email;
     }
   }
 
-  const Factory = factory<FactoryType>(fake => ({
+  const User = factory<UserType>(fake => ({
     email: fake.internet.email(),
     name: fake.name.firstName(),
   }));
@@ -23,7 +23,7 @@ describe('onHydrate tests', () => {
   const onHydrate = jest.fn();
 
   beforeEach(() => {
-    Factory.onHydrate(onHydrate);
+    User.onHydrate(onHydrate);
   });
 
   afterEach(() => {
@@ -31,46 +31,46 @@ describe('onHydrate tests', () => {
   });
 
   it('should call the onHydrate function when creating a model', async () => {
-    await Factory.create();
+    await User.create();
 
     expect(onHydrate).toHaveBeenCalled();
   });
 
   it('should call the onHydrate function when creating each model', async () => {
-    await Factory.create(2);
+    await User.create(2);
 
     expect(onHydrate).toHaveBeenCalledTimes(2);
   });
 
   it('should call the onHydrate function when making a model', async () => {
-    Factory.make();
+    User.make();
 
     expect(onHydrate).toHaveBeenCalled();
   });
 
   it('should call the onHydrate function when making each model', async () => {
-    Factory.make(2);
+    User.make(2);
 
     expect(onHydrate).toHaveBeenCalledTimes(2);
   });
 
   it('should hydrate the result when making data', () => {
-    Factory.onHydrate((data: FactoryType) => {
-      return new FactoryModel(data);
+    User.onHydrate((data: UserType) => {
+      return new UserModel(data);
     });
 
-    const factoryModel = Factory.make();
+    const factoryModel = User.make();
 
-    expect(factoryModel.constructor.name).toBe('FactoryModel');
+    expect(factoryModel.constructor.name).toBe('UserModel');
   });
 
   it('should hydrate the result when creating data', async () => {
-    Factory.onHydrate((data: FactoryType) => {
-      return new FactoryModel(data);
+    User.onHydrate((data: UserType) => {
+      return new UserModel(data);
     });
 
-    const factoryModel = await Factory.create();
+    const factoryModel = await User.create();
 
-    expect(factoryModel.constructor.name).toBe('FactoryModel');
+    expect(factoryModel.constructor.name).toBe('UserModel');
   });
 });

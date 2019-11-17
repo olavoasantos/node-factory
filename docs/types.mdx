@@ -1,0 +1,132 @@
+---
+name: Types
+route: /types
+---
+
+# Types
+
+## `FactoryGenerator`
+
+```typescript
+type FactoryGenerator = (fake: Faker.FakerStatic) => DataObject<T>;
+```
+
+> For more information on Faker.FakerStatic type refer to https://www.npmjs.com/package/@types/faker
+
+## `Factory`
+
+```typescript
+interface Factory<T = any> {
+  make: MakeMethod<T>;
+  create: CreateMethod<T>;
+  only: (keys: keyof T | Array<keyof T>, overrides?: DataObject | FactoryGenerator) => Partial<T>;
+  seed: (value: number) => Factory<T>;
+  state: (name: string, stateValues: DataObject | FactoryGenerator) => void;
+  onInsert(func: DatabaseConfig<T>['insert']): Factory<T>;
+  onHydrate(func: DatabaseConfig<T>['hydrate']): Factory<T>;
+}
+```
+
+## `MakeMethod`
+
+```typescript
+interface MakeMethod<T> {
+  (): T;
+  (overrides: DataObject | FactoryGenerator): T;
+  (count: number): T[];
+  (count: number, overrides: DataObject | FactoryGenerator): T[];
+}
+```
+
+## `CreateMethod`
+
+```typescript
+interface CreateMethod<T> {
+  (): Promise<T>;
+  (overrides: DataObject | FactoryGenerator): Promise<T>;
+  (count: number): Promise<T[]>;
+  (count: number, overrides: DataObject | FactoryGenerator): Promise<T[]>;
+}
+```
+## `OnlyMethod`
+
+```typescript
+type OnlyMethod<T> = (keys: keyof T | Array<keyof T>, overrides?: DataObject | FactoryGenerator) => Partial<T>;
+```
+
+## `SeedMethod`
+
+```typescript
+type SeedMethod<T> = (value: number) => Factory<T>;
+```
+
+## `StateMethod`
+
+```typescript
+type StateMethod = (name: string, stateValues: DataObject | FactoryGenerator) => void;
+```
+
+## `OnInsertMethod`
+
+```typescript
+type OnInsertMethod<T> = (func: DatabaseConfig<T>['insert']) => Factory<T>;
+```
+
+## `OnHydrateMethod`
+
+```typescript
+type OnHydrateMethod<T> = (func: DatabaseConfig<T>['hydrate']) => Factory<T>;
+```
+
+## `DataObject`
+
+```typescript
+interface DataObject {
+  [key: string]: any;
+}
+```
+
+## `GenericExtension`
+
+```typescript
+interface GenericExtension<T> {
+  [state: string]: MakeMethod<T>;
+}
+```
+
+## `DatabaseConfig`
+
+```typescript
+interface DatabaseConfig<T> {
+  insert: (data: T) => Promise<any>;
+  hydrate: (data: T) => any;
+}
+```
+
+## `EnumFactory`
+
+```typescript
+interface EnumFactory<T> {
+  get: EnumGet<T>;
+  unique: EnumUnique<T>;
+  seed(value?: number): EnumFactory<T>;
+}
+```
+
+## `EnumGet`
+
+```typescript
+interface EnumGet<T> {
+  (): T;
+  (count: number): T[];
+}
+```
+
+## `EnumUnique`
+
+```typescript
+interface EnumUnique<T> {
+  (): T;
+  (count: number): T[];
+}
+```
