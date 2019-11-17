@@ -17,7 +17,7 @@ describe('state tests', () => {
       email: fake.internet.email(),
       name: fake.name.firstName(),
     }));
-  })
+  });
 
   it('should have a state defined', () => {
     const name = 'Joan';
