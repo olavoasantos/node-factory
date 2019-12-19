@@ -1,35 +1,38 @@
-// tslint:disable: unified-signatures
-export type FactoryGenerator = (fake: any) => DataObject;
+export type FakerType = Faker.FakerStatic;
+
+export type FactoryGenerator<T> = (fake: FakerType) => T;
+
+export type Overrides<T> = Partial<T> | FactoryGenerator<Partial<T>>;
 
 export interface Factory<T = any> {
   make: MakeMethod<T>;
   create: CreateMethod<T>;
   only: OnlyMethod<T>;
   seed: SeedMethod<T>;
-  state: StateMethod;
+  state: StateMethod<T>;
   onInsert: OnInsertMethod<T>;
   onHydrate: OnHydrateMethod<T>;
 }
 
 export interface MakeMethod<T> {
   (): T;
-  (overrides: DataObject | FactoryGenerator): T;
+  (overrides: Overrides<T>): T;
   (count: number): T[];
-  (count: number, overrides: DataObject | FactoryGenerator): T[];
+  (count: number, overrides: Overrides<T>): T[];
 }
 
 export interface CreateMethod<T> {
   (): Promise<T>;
-  (overrides: DataObject | FactoryGenerator): Promise<T>;
+  (overrides: Overrides<T>): Promise<T>;
   (count: number): Promise<T[]>;
-  (count: number, overrides: DataObject | FactoryGenerator): Promise<T[]>;
+  (count: number, overrides: Overrides<T>): Promise<T[]>;
 }
 
-export type OnlyMethod<T> = (keys: keyof T | Array<keyof T>, overrides?: DataObject | FactoryGenerator) => Partial<T>;
+export type OnlyMethod<T> = (keys: keyof T | Array<keyof T>, overrides?: Overrides<T>) => Partial<T>;
 
 export type SeedMethod<T> = (value: number) => Factory<T>;
 
-export type StateMethod = (name: string, stateValues: DataObject | FactoryGenerator) => void;
+export type StateMethod<T> = (name: string, stateValues: Overrides<T>) => void;
 
 export type OnInsertMethod<T> = (func: DatabaseConfig<T>['insert']) => Factory<T>;
 
@@ -39,8 +42,10 @@ export interface DataObject {
   [key: string]: any;
 }
 
+export type StateGenerator<T> = MakeMethod<T>;
+
 export interface GenericExtension<T> {
-  [state: string]: MakeMethod<T>;
+  [state: string]: StateGenerator<T>;
 }
 
 export interface DatabaseConfig<T> {
