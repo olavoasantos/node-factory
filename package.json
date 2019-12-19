@@ -31,10 +31,10 @@
     "testing"
   ],
   "dependencies": {
+    "@types/faker": "^4.1.8",
     "faker": "^4.1.0"
   },
   "devDependencies": {
-    "@types/faker": "^4.1.8",
     "@types/jest": "^24.0.23",
     "docz": "^1.3.1",
     "docz-theme-default": "^1.2.0",

@@ -1,7 +1,15 @@
 import faker from 'faker';
 import { DEFAULT_DATABASE_CONFIG } from './constants';
 import { isFunction, merge, resolveArgs } from './helpers';
-import { DatabaseConfig, DataObject, Factory, FactoryGenerator, GenericExtension, MakeMethod, Overrides } from './types';
+import {
+  DatabaseConfig,
+  DataObject,
+  Factory,
+  FactoryGenerator,
+  GenericExtension,
+  MakeMethod,
+  Overrides,
+} from './types';
 
 const factory = <T, A = GenericExtension<T>>(generator: FactoryGenerator<T>) => {
   const database: DatabaseConfig<T> = DEFAULT_DATABASE_CONFIG;
