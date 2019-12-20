@@ -80,13 +80,23 @@ const factory = <T, A = GenericExtension<T>>(generator: FactoryGenerator<T>) => 
     return database.hydrate(mock);
   };
 
-  const only = (keys: keyof T | Array<keyof T>, overrides: Overrides<T> = {}) => {
-    const overrideData = isFunction(overrides) && typeof overrides === 'function' ? overrides(faker) : overrides;
-    const data = make(overrideData);
+  const only = (keys: keyof T | Array<keyof T>, count?: number | Overrides<T>, overrides?: Overrides<T>) => {
+    let data: T;
+    if (overrides) {
+      data = make(count, overrides);
+    } else if (count) {
+      data = make(count);
+    } else {
+      data = make();
+    }
 
-    return (Array.isArray(keys)
-      ? keys.reduce((filtered: Partial<T>, key) => ({ ...filtered, [key]: (data as Partial<T>)[key] }), {})
-      : { [keys]: (data as Partial<T>)[keys] }) as Partial<T>;
+    const filter = (generatedData: T) => (Array.isArray(keys)
+      ? keys.reduce((filtered: Partial<T>, key) => ({ ...filtered, [key]: (generatedData as Partial<T>)[key] }), {})
+      : { [keys]: (generatedData as Partial<T>)[keys] });
+
+    return Array.isArray(data)
+      ? data.map(filter)
+      : filter(data);
   };
 
   const seed = (value: number) => {

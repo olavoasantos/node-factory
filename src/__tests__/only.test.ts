@@ -29,6 +29,24 @@ describe('only tests', () => {
     expect(typeof data.email).toBe('string');
   });
 
+  it('should return only certain fields of many items', () => {
+    const data = User.only(['email'], 1);
+
+    expect(Array.isArray(data)).toBeTruthy();
+    expect(data.length).toBe(1);
+    expect(data[0]).toHaveProperty('email');
+    expect(typeof data[0].email).toBe('string');
+  });
+
+  it('should return only certain fields of many items and overwrite data', () => {
+    const data = User.only(['email'], 1, { email: 'john@example.com' });
+
+    expect(Array.isArray(data)).toBeTruthy();
+    expect(data.length).toBe(1);
+    expect(data[0]).toHaveProperty('email');
+    expect(data[0].email).toBe('john@example.com');
+  });
+
   it('should return only certain fields with overwritten data', () => {
     const data = User.only(['email'], { email: 'john@example.com' });
 
