@@ -2,7 +2,6 @@ import { merge } from '../helpers';
 
 describe('seed tests', () => {
   const object1 = { a: 'A', b: 'B' };
-  const object2 = { c: 'C', d: { e: 'E' } };
   const object3 = { f: 'F', g: { f: 'F' } };
   const object4 = { b: 'H', e: 'I', f: 'J' };
   const object5 = { k: 'K', l: ['m', 'n'] };
@@ -15,7 +14,7 @@ describe('seed tests', () => {
   });
 
   it('should merge values in nested object', () => {
-    const merged = merge(object2, object4);
+    const merged = merge({ c: 'C', d: { e: 'E' } }, { d: { e: 'I' } });
 
     expect(merged).toMatchObject({ c: 'C', d: { e: 'I' } });
   });

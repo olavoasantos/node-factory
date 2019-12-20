@@ -2,7 +2,11 @@ export type FakerType = Faker.FakerStatic;
 
 export type FactoryGenerator<T> = (fake: FakerType) => T;
 
-export type Overrides<T> = Partial<T> | FactoryGenerator<Partial<T>>;
+type RecursivePartial<T> = {
+  [P in keyof T]?: RecursivePartial<T[P]>;
+};
+
+export type Overrides<T> = RecursivePartial<T> | FactoryGenerator<RecursivePartial<T>>;
 
 export interface Factory<T = any> {
   make: MakeMethod<T>;
