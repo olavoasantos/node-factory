@@ -90,13 +90,12 @@ const factory = <T, A = GenericExtension<T>>(generator: FactoryGenerator<T>) => 
       data = make();
     }
 
-    const filter = (generatedData: T) => (Array.isArray(keys)
-      ? keys.reduce((filtered: Partial<T>, key) => ({ ...filtered, [key]: (generatedData as Partial<T>)[key] }), {})
-      : { [keys]: (generatedData as Partial<T>)[keys] });
+    const filter = (generatedData: T) =>
+      Array.isArray(keys)
+        ? keys.reduce((filtered: Partial<T>, key) => ({ ...filtered, [key]: (generatedData as Partial<T>)[key] }), {})
+        : { [keys]: (generatedData as Partial<T>)[keys] };
 
-    return Array.isArray(data)
-      ? data.map(filter)
-      : filter(data);
+    return Array.isArray(data) ? data.map(filter) : filter(data);
   };
 
   const seed = (value: number) => {
