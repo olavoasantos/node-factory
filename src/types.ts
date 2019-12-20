@@ -3,7 +3,7 @@ export type FakerType = Faker.FakerStatic;
 export type FactoryGenerator<T> = (fake: FakerType) => T;
 
 type RecursivePartial<T> = {
-  [P in keyof T]?: RecursivePartial<T[P]>;
+  [P in keyof T]?: Partial<T[P]> | RecursivePartial<T[P]>;
 };
 
 export type Overrides<T> = RecursivePartial<T> | FactoryGenerator<RecursivePartial<T>>;
