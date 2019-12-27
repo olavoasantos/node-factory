@@ -9,33 +9,35 @@ export const isFunction = (variable: any) => {
   return variable && {}.toString.call(variable) === '[object Function]';
 };
 
-export const merge = (data: DataObject, overrides: DataObject): DataObject => {
-  if (Array.isArray(data) && Array.isArray(overrides)) {
-    return data.map((value: any, key: number) => (key < overrides.length ? overrides[key] : value));
-  }
-  return Object.keys(data).reduce((values, key) => {
-    if (Object.keys(overrides).indexOf(key) >= 0) {
-      const { [key]: override } = overrides;
+export { merge } from './deepMerge';
 
-      if (isObject(data[key]) && isObject(override)) {
-        return {
-          ...values,
-          [key]: merge(data[key], override),
-        };
-      }
+// export const merge = (data: DataObject, overrides: DataObject): DataObject => {
+//   if (Array.isArray(data) && Array.isArray(overrides)) {
+//     return data.map((value: any, key: number) => (key < overrides.length ? overrides[key] : value));
+//   }
+//   return Object.keys(data).reduce((values, key) => {
+//     if (Object.keys(overrides).indexOf(key) >= 0) {
+//       const { [key]: override } = overrides;
 
-      return {
-        ...values,
-        [key]: override,
-      };
-    }
+//       if (isObject(data[key]) && isObject(override)) {
+//         return {
+//           ...values,
+//           [key]: merge(data[key], override),
+//         };
+//       }
 
-    return {
-      ...values,
-      [key]: data[key],
-    };
-  }, {});
-};
+//       return {
+//         ...values,
+//         [key]: override,
+//       };
+//     }
+
+//     return {
+//       ...values,
+//       [key]: data[key],
+//     };
+//   }, {});
+// };
 
 export const resolveArgs = (...args: any[]): DataObject =>
   args.reduce(

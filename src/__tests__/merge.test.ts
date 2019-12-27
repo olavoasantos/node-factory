@@ -42,4 +42,10 @@ describe('seed tests', () => {
 
     expect(merged).toMatchObject([4, 5, 3]);
   });
+
+  it('should merge items from even if the target does not contain that key', () => {
+    const merged = merge({ variable: { a: 'B' } }, { variable: { c: 'D' } });
+
+    expect(merged).toMatchObject({ variable: { a: 'B', c: 'D' } });
+  });
 });
