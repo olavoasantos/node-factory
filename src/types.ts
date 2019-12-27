@@ -49,7 +49,7 @@ export interface DataObject {
   [key: string]: any;
 }
 
-export type GenericData  = any[] | DataObject;
+export type GenericData = any[] | DataObject;
 
 export type StateGenerator<T> = MakeMethod<T>;
 
