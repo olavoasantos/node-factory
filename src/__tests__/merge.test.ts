@@ -50,7 +50,7 @@ describe('seed tests', () => {
   });
 
   it('should NOT clone instances', () => {
-    class CustomClass {};
+    class CustomClass {}
     const merged = merge({ a: new CustomClass() }, {});
 
     expect(merged.a).toBeInstanceOf(CustomClass);
