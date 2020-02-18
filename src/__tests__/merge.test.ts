@@ -48,4 +48,17 @@ describe('seed tests', () => {
 
     expect(merged).toMatchObject({ variable: { a: 'B', c: 'D' } });
   });
+
+  it('should NOT clone instances', () => {
+    class CustomClass {};
+    const merged = merge({ a: new CustomClass() }, {});
+
+    expect(merged.a).toBeInstanceOf(CustomClass);
+  });
+
+  it('should NOT merge arrays inside objects', () => {
+    const merged = merge({ array: [1, 2, 3] }, { array: [4, 5] });
+
+    expect(merged).toMatchObject({ array: [4, 5] });
+  });
 });

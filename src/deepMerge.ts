@@ -3,6 +3,7 @@ import { DataObject, GenericData } from './types';
 const isMergeableObject = (val: GenericData) =>
   val &&
   typeof val === 'object' &&
+  val.constructor.name === 'Object' &&
   Object.prototype.toString.call(val) !== '[object RegExp]' &&
   Object.prototype.toString.call(val) !== '[object Date]';
 
@@ -40,5 +41,5 @@ export const merge = (target: GenericData, source: GenericData) => {
     throw new Error('Cannot merge two distinct elements');
   }
 
-  return Array.isArray(source) ? arrayMerge(target as any[], source) : mergeObject(target as DataObject, source);
+  return (Array.isArray(source)) ? arrayMerge(target as any[], source) : mergeObject(target as DataObject, source);
 };
