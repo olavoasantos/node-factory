@@ -12,7 +12,7 @@ import {
 } from './types';
 
 const factory = <T, A = GenericExtension<T>>(generator: FactoryGenerator<T>) => {
-  const database: DatabaseConfig<T> = DEFAULT_DATABASE_CONFIG;
+  const database: DatabaseConfig<T> = { ...DEFAULT_DATABASE_CONFIG };
 
   const generate = (overrides: DataObject | any[] | null = null) => {
     const data = generator(faker);
