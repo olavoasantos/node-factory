@@ -2,6 +2,7 @@ import { factory } from '..';
 
 describe('create tests', () => {
   interface FactoryType {
+    id?: number;
     email: string;
     name: string;
   }
@@ -9,12 +10,24 @@ describe('create tests', () => {
   const User = factory<FactoryType>(fake => ({
     email: fake.internet.email(),
     name: fake.name.firstName(),
-  }));
+  })).onInsert(async (data: FactoryType) => ({ id: 1, ...data }));
 
   it('should create a single object', async () => {
     const data = await User.create();
 
     expect(typeof data).toBe('object');
+    expect(data).toHaveProperty('name');
+    expect(typeof data.name).toBe('string');
+    expect(data).toHaveProperty('email');
+    expect(typeof data.email).toBe('string');
+  });
+
+  it('should create a single object and return OnInsertMethod response', async () => {
+    const data = await User.create();
+
+    expect(typeof data).toBe('object');
+    expect(data).toHaveProperty('id');
+    expect(typeof data.id).toBe('number');
     expect(data).toHaveProperty('name');
     expect(typeof data.name).toBe('string');
     expect(data).toHaveProperty('email');

@@ -76,8 +76,7 @@ const factory = <T, A = GenericExtension<T>>(generator: FactoryGenerator<T>) => 
       );
     }
 
-    await database.insert(mock);
-    return database.hydrate(mock);
+    return database.hydrate(await database.insert(mock));
   };
 
   const only = (keys: keyof T | Array<keyof T>, count?: number | Overrides<T>, overrides?: Overrides<T>) => {
