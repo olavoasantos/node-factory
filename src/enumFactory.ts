@@ -5,7 +5,7 @@ import { EnumFactory } from './types';
 const enumFactory = <T = any>(array: any[] | ((fake: any) => any)) => {
   const generator = (n?: number): any[] => {
     if (isFunction(array) && typeof array === 'function') {
-      return Array.from({ length: n || faker.random.number(10) }).map(() => array(faker));
+      return Array.from({ length: n || faker.datatype.number(10) }).map(() => array(faker));
     }
 
     return array as any[];
@@ -15,23 +15,21 @@ const enumFactory = <T = any>(array: any[] | ((fake: any) => any)) => {
     let mock: any | any[];
     if (n === undefined) {
       const data = generator();
-      const rand = faker.random.number(data.length - 1);
+      const rand = faker.datatype.number(data.length - 1);
       mock = faker.helpers.shuffle<T>([...data])[rand];
     } else if (n < 1) {
       const data = generator();
-      const rand = faker.random.number(data.length - 1);
-      mock = faker.helpers
-        .shuffle<T>([...data])
-        .slice(rand, rand + 1);
+      const rand = faker.datatype.number(data.length - 1);
+      mock = faker.helpers.shuffle<T>([...data]).slice(rand, rand + 1);
     } else {
       mock = Array.from({ length: n }).map(() => {
         const data = generator(n);
-        const rand = faker.random.number(data.length - 1);
+        const rand = faker.datatype.number(data.length - 1);
         return faker.helpers.shuffle<T>([...data])[rand];
       });
     }
 
-    faker.seed(faker.random.number());
+    faker.seed(faker.datatype.number());
 
     return mock as Partial<T>;
   };
@@ -40,14 +38,12 @@ const enumFactory = <T = any>(array: any[] | ((fake: any) => any)) => {
     let mock: any | any[];
     if (n === undefined) {
       const data = generator();
-      const rand = faker.random.number(data.length - 1);
+      const rand = faker.datatype.number(data.length - 1);
       mock = faker.helpers.shuffle<T>([...data])[rand];
     } else if (n < 1) {
       const data = generator();
-      const rand = faker.random.number(data.length - 1);
-      mock = faker.helpers
-        .shuffle<T>([...data])
-        .slice(rand, rand + 1);
+      const rand = faker.datatype.number(data.length - 1);
+      mock = faker.helpers.shuffle<T>([...data]).slice(rand, rand + 1);
     } else {
       const N = !Array.isArray(array) || n < array.length ? n : array.length;
       const partial = [...generator(N)];
@@ -56,7 +52,7 @@ const enumFactory = <T = any>(array: any[] | ((fake: any) => any)) => {
       });
     }
 
-    faker.seed(faker.random.number());
+    faker.seed(faker.datatype.number());
 
     return mock as Partial<T>;
   };

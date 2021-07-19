@@ -29,7 +29,7 @@ To start, we might have a factory in the likes of:
 import { factory } from 'node-factory';
 
 const PostFactory = factory(fake => ({
-  id: fake.random.uuid(),
+  id: fake.datatype.uuid(),
   title: fake.lorem.sentence(),
 }));
 

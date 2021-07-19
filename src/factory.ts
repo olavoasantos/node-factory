@@ -39,7 +39,7 @@ const factory = <T, A = GenericExtension<T>>(generator: FactoryGenerator<T>) => 
       mock = Array.from({ length }).map(() => generate(data)) as T[];
     }
 
-    faker.seed(faker.random.number());
+    faker.seed(faker.datatype.number());
 
     if (Array.isArray(mock)) {
       return mock.map((model: T) => {
@@ -65,17 +65,17 @@ const factory = <T, A = GenericExtension<T>>(generator: FactoryGenerator<T>) => 
       mock = Array.from({ length }).map(() => generate(data)) as T[];
     }
 
-    faker.seed(faker.random.number());
+    faker.seed(faker.datatype.number());
 
     if (Array.isArray(mock)) {
       return await Promise.all(
         mock.map(async (model: T) => {
-          return database.hydrate(await database.insert(model));
+          return database.hydrate((await database.insert(model)) ?? model);
         }),
       );
     }
 
-    return database.hydrate(await database.insert(mock));
+    return database.hydrate((await database.insert(mock)) ?? mock);
   };
 
   const only = (keys: keyof T | (keyof T)[], count?: number | Overrides<T>, overrides?: Overrides<T>) => {
@@ -119,7 +119,7 @@ const factory = <T, A = GenericExtension<T>>(generator: FactoryGenerator<T>) => 
           mock = Array.from({ length }).map(() => generate({ ...stateData, ...data })) as T[];
         }
 
-        faker.seed(faker.random.number());
+        faker.seed(faker.datatype.number());
 
         if (Array.isArray(mock)) {
           return mock.map((model: T) => {
