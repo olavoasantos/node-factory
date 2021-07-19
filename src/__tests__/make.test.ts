@@ -6,7 +6,7 @@ describe('make tests', () => {
     name: string;
   }
 
-  const User = factory<UserType>(fake => ({
+  const User = factory<UserType>((fake) => ({
     email: fake.internet.email(),
     name: fake.name.firstName(),
   }));
@@ -33,7 +33,7 @@ describe('make tests', () => {
   });
 
   it('should create an array factory', () => {
-    const arrayUser = factory<string[]>(fake => [fake.name.findName(), fake.name.findName(), fake.name.findName()]);
+    const arrayUser = factory<string[]>((fake) => [fake.name.findName(), fake.name.findName(), fake.name.findName()]);
 
     const created = arrayUser.make();
 
@@ -77,7 +77,7 @@ describe('make tests', () => {
 
     expect(Array.isArray(data)).toBeTruthy();
     expect(data.length).toBe(3);
-    data.forEach(item => {
+    data.forEach((item) => {
       expect(item.name).toBe('JOHN DOE');
     });
   });

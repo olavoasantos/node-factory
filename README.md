@@ -39,7 +39,7 @@ interface User {
 }
 
 const UserFactory = factory<User>(fake => ({
-  id: fake.random.uuid(),
+  id: fake.datatype.uuid(),
   name: fake.name.findName(),
   email: fake.internet.email(),
 }));

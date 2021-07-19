@@ -13,7 +13,7 @@ export interface UserStates {
 }
 
 export const UserFactory = factory<User, UserStates>(fake => ({
-  id: fake.random.uuid(),
+  id: fake.datatype.uuid(),
   name: fake.name.findName(),
   email: fake.internet.email(),
 }));

@@ -25,7 +25,7 @@ const mergeObject = (target: DataObject, source: DataObject) => {
     });
   }
 
-  Object.keys(source).forEach(key => {
+  Object.keys(source).forEach((key) => {
     if (!isMergeableObject(source[key]) || !target[key]) {
       destination[key] = cloneIfNecessary(source[key]);
     } else {

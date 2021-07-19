@@ -40,7 +40,7 @@ import { factory } from 'node-factory';
 
 // UserFactory.make() => any
 const UserFactory = factory((fake: Faker) => ({
-  id: fake.random.uuid(),
+  id: fake.datatype.uuid(),
   name: fake.name.findName(),
   email: fake.internet.email(),
 }));
@@ -63,7 +63,7 @@ export interface User {
 
 // UserFactory.make() => User
 export const UserFactory = factory<User>(fake => ({
-  id: fake.random.uuid(),
+  id: fake.datatype.uuid(),
   name: fake.name.findName(),
   email: fake.internet.email(),
 }));
@@ -89,7 +89,7 @@ export interface UserStates {
 
 // UserFactory.make() => User
 export const UserFactory = factory<User, UserStates>(fake => ({
-  id: fake.random.uuid(),
+  id: fake.datatype.uuid(),
   name: fake.name.findName(),
   email: fake.internet.email(),
 }));

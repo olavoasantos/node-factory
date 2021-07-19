@@ -6,7 +6,7 @@ describe('onInsert tests', () => {
     name: string;
   }
 
-  const User = factory<UserType>(fake => ({
+  const User = factory<UserType>((fake) => ({
     email: fake.internet.email(),
     name: fake.name.firstName(),
   }));

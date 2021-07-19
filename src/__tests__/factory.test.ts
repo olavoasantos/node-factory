@@ -6,7 +6,7 @@ describe('factory tests', () => {
     name: string;
   }
 
-  const Factory = factory<FactoryType>(fake => ({
+  const Factory = factory<FactoryType>((fake) => ({
     email: fake.internet.email(),
     name: fake.name.firstName(),
   }));

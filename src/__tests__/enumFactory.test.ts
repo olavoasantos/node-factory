@@ -76,7 +76,7 @@ describe('enumFactory tests', () => {
   });
 
   it('should not return the same value when used within a factory', () => {
-    const ID = enumFactory<string>((fake: Faker.FakerStatic) => fake.random.uuid());
+    const ID = enumFactory<string>((fake: Faker.FakerStatic) => fake.datatype.uuid());
     const ObjFactory = factory<{ id: string }>(() => ({
       id: ID.get(),
     }));
