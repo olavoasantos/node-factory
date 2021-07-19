@@ -33,8 +33,8 @@ export interface CreateMethod<T> {
 }
 
 export interface OnlyMethod<T> {
-  (keys: keyof T | Array<keyof T>, overrides?: Overrides<T>): Partial<T>;
-  (keys: keyof T | Array<keyof T>, count: number, overrides?: Overrides<T>): Array<Partial<T>>;
+  (keys: keyof T | (keyof T)[], overrides?: Overrides<T>): Partial<T>;
+  (keys: keyof T | (keyof T)[], count: number, overrides?: Overrides<T>): Partial<T>[];
 }
 
 export type SeedMethod<T> = (value: number) => Factory<T>;

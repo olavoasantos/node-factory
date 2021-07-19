@@ -70,8 +70,7 @@ const factory = <T, A = GenericExtension<T>>(generator: FactoryGenerator<T>) => 
     if (Array.isArray(mock)) {
       return await Promise.all(
         mock.map(async (model: T) => {
-          await database.insert(model);
-          return database.hydrate(model);
+          return database.hydrate(await database.insert(model));
         }),
       );
     }
@@ -79,7 +78,7 @@ const factory = <T, A = GenericExtension<T>>(generator: FactoryGenerator<T>) => 
     return database.hydrate(await database.insert(mock));
   };
 
-  const only = (keys: keyof T | Array<keyof T>, count?: number | Overrides<T>, overrides?: Overrides<T>) => {
+  const only = (keys: keyof T | (keyof T)[], count?: number | Overrides<T>, overrides?: Overrides<T>) => {
     let data: T;
     if (overrides) {
       data = make(count, overrides);

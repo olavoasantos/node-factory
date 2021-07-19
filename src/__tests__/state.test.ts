@@ -13,7 +13,7 @@ describe('state tests', () => {
 
   let User: Factory<UserType> & UserState;
   beforeEach(() => {
-    User = factory<UserType, UserState>(fake => ({
+    User = factory<UserType, UserState>((fake) => ({
       email: fake.internet.email(),
       name: fake.name.firstName(),
     }));
